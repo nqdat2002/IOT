@@ -1,7 +1,9 @@
 import React from 'react';
 
-export const DataSensors = () => {
+const DataSensors = () => {
   return (
     <div>DataSensors</div>
   );
 };
+
+export default DataSensors;
