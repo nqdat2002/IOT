@@ -21,17 +21,18 @@
     gap: 50px;
 }
 
-.base-item h3 {
-    font-size: 20px;
-    line-height: 1.6;
-}
-
 .base-item {
     background-color: rgb(227, 233, 240);
     border: #141414 solid 1px;
     height: 120px;
     width: 400px;
 }
+
+.base-item h3 {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
 
 .base-item__content {
     display: flex;
@@ -117,11 +118,11 @@
 }
 
 input:checked+.slider {
-    background-color: #f53037;
+    background-color: #00ff6a;
 }
 
 input:focus+.slider {
-    box-shadow: 0 0 1px #f53037;
+    box-shadow: 0 0 1px #00ff6a;
 }
 
 input:checked+.slider:before {
@@ -138,15 +139,12 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-#btn-fan-on{
-    animation: rotation 1.5s infinite linear;
+@keyframes spin {
+    0% { transform: rotate(360deg); }
+
+    100% { transform: rotate(0deg); }
 }
 
-@keyframes rotation {
-    from {
-        transform: rotate(359deg);
-    }
-    to {
-        transform: rotate(0deg);
-    }
+.fan-spinning {
+    animation: spin 1.5s linear infinite;
 }
