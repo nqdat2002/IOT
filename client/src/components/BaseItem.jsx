@@ -3,7 +3,7 @@ import "../pages/Dashboard.css";
 
 class BaseItem extends React.Component {
 	getGradient(warning_colors, index, value) {
-		if (value > 100) value /= 2;
+		if (value >= 100) value = (value / 4000) * 100;
         return `linear-gradient(to top right, ${warning_colors[index].low} ${value}%, ${warning_colors[index].high} 100%)`;
     }
 	render() {

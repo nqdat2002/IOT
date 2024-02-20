@@ -14,7 +14,7 @@
 html {
   font-size: 62.5%;
   line-height: 1.6rem;
-  font-family: 'Neurial Grotesk', sans-serif;
+  font-family: 'Neurial Grotesk', "Roboto", "Helvetica", sans-serif;
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
