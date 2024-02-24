@@ -31,10 +31,6 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 
 import './DataSensors.css';
 import Filter from '../components/Filter';
-// import '@fontsource/roboto/300.css';
-// import '@fontsource/roboto/400.css';
-// import '@fontsource/roboto/500.css';
-// import '@fontsource/roboto/700.css';
 
 const TablePaginationActions = (props) => {
 	const theme = useTheme();
@@ -97,14 +93,14 @@ TablePaginationActions.propTypes = {
 	rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(id, name, calories, fat, carbs, protein) {
+function createData(id, name, temperature, humidity, luminosity, date) {
 	return {
 		id,
 		name,
-		calories,
-		fat,
-		carbs,
-		protein,
+		temperature,
+		humidity,
+		luminosity,
+		date,
 	};
 }
 
@@ -164,28 +160,28 @@ const headCells = [
 		label: 'Id',
 	},
 	{
-		id: 'calories',
+		id: 'temperature',
 		numeric: true,
 		disablePadding: false,
 		label: 'Temperature (°C)',
 	},
 	{
-		id: 'fat',
+		id: 'humidity',
 		numeric: true,
 		disablePadding: false,
 		label: 'Humidity (%)',
 	},
 	{
-		id: 'carbs',
+		id: 'luminosity',
 		numeric: true,
 		disablePadding: false,
 		label: 'Luminosity (lux)',
 	},
 	{
-		id: 'protein',
+		id: 'date',
 		numeric: true,
 		disablePadding: false,
-		label: 'Date created',
+		label: 'Created at (date)',
 	},
 ];
 
@@ -305,7 +301,7 @@ EnhancedTableToolbar.propTypes = {
 
 const DataSensors = () => {
 	const [order, setOrder] = React.useState('asc');
-	const [orderBy, setOrderBy] = React.useState('calories');
+	const [orderBy, setOrderBy] = React.useState('temperature');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [dense, setDense] = React.useState(false);
@@ -377,6 +373,8 @@ const DataSensors = () => {
 		<Box className="dataSensor" sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
 				<EnhancedTableToolbar numSelected={selected.length} />
+				<Filter/>
+
 				<TableContainer>
 					<Table
 						sx={{ minWidth: 750 }}
@@ -426,10 +424,10 @@ const DataSensors = () => {
 										>
 											{row.name}
 										</TableCell>
-										<TableCell sx={{ fontSize: 16 }} align="center">{row.calories}</TableCell>
-										<TableCell sx={{ fontSize: 16 }} align="center">{row.fat}</TableCell>
-										<TableCell sx={{ fontSize: 16 }} align="center">{row.carbs}</TableCell>
-										<TableCell sx={{ fontSize: 16 }} align="center">{row.protein}</TableCell>
+										<TableCell sx={{ fontSize: 16 }} align="center">{row.temperature}</TableCell>
+										<TableCell sx={{ fontSize: 16 }} align="center">{row.humidity}</TableCell>
+										<TableCell sx={{ fontSize: 16 }} align="center">{row.luminosity}</TableCell>
+										<TableCell sx={{ fontSize: 16 }} align="center">{row.date}</TableCell>
 									</TableRow>
 								);
 							})}
