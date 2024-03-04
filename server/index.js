@@ -1,9 +1,11 @@
 import express from "express";
 import todoRouter from "./routers/todoRouter.js";
 
+import dotenv from "dotenv";
+
+dotenv.config({ path: "./config.env" });
 const app = express();
 app.use(express.json());
-
 // app.get("/", (req, res) => res.send("Hello world."));
 
 // app.use("/", todoRouter);
@@ -17,7 +19,9 @@ const options = {
 	clean:true
 };
 
-let client = mqtt.connect("mqtt://192.188.12.111", options);
+const MQTT_IP_ADDRESS = process.env.MQTT_IP_ADDRESS;
+let client = mqtt.connect(`${MQTT_IP_ADDRESS}`, options);
+
 console.log("connected flag  " + client.connected);
 
 client.on("connect", () => {	
@@ -37,13 +41,14 @@ client.on("message", (topic, message) => {
 	console.log(message.toString());
 });
 
-import connection from "./db/connection.js";
-connection.connect(function(err) {
-	if (err) throw err;
-	console.log("Connected to DataBase!!!")
-});
+// DB connect using MySQL
+// import connection from "./db/connection.js";
+// connection.connect(function(err) {
+// 	if (err) throw err;
+// 	console.log("Connected to DataBase!!!")
+// });
 
 
-const PORT = 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`The app start on ${PORT}`));
