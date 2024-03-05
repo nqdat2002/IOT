@@ -6,22 +6,34 @@ import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 const app = express();
 app.use(express.json());
+
 // app.get("/", (req, res) => res.send("Hello world."));
 
 // app.use("/", todoRouter);
 
 import mqtt from "mqtt";
+import formatDate from "./utils/formatDate.js";
 
 const options = {
-	clientId:"datnq",
-	username:"datnq",
-	password:"datnq123",
-	clean:true
+	clientId: process.env.MQTT_CLIENT_ID,
+	username: process.env.MQTT_USERNAME,
+	password: process.env.MQTT_PASSWORD,
+	clean: true
 };
 
-const MQTT_IP_ADDRESS = process.env.MQTT_IP_ADDRESS;
+const MQTT_IP_ADDRESS = process.env.MQTT_PROTOCOL + "://" + process.env.MQTT_HOST + ":" + process.env.MQTT_PORT;
 let client = mqtt.connect(`${MQTT_IP_ADDRESS}`, options);
 
+let topicValues = {
+    "temperature": null,
+	"humidity": null,
+    "luminosity": null,
+}
+
+const topics_sub = ["esp32/datasensors", "esp32/temperature", "esp32/humidity", "esp32/luminosity"];
+const topics_pub = ["esp32/led/LED_02", "esp32/led/LED_04", "esp32/led/LED_status"];
+
+// connect the client to the broker
 console.log("connected flag  " + client.connected);
 
 client.on("connect", () => {	
@@ -29,26 +41,43 @@ client.on("connect", () => {
 });
 
 client.on("connect", () => {
-	client.subscribe("presence", (err) => {
+	client.subscribe(topics_sub, (err) => {
 		if (!err) {
-			client.publish("presence", "Hello mqtt");
+			// client.publish("presence", "Hello mqtt");
+			console.log("Subscribed to topics: ", topics_sub);
 		}
 	});
 });
 
 client.on("message", (topic, message) => {
-  	// message is Buffer
-	console.log(message.toString());
+	if (topic == "esp32/datasensors"){
+		try {
+			const now = formatDate(new Date());
+			const data = JSON.parse(message.toString());
+			topicValues["temperature"] = data.temperature;
+			topicValues["humidity"] = data.humidity;
+			topicValues["luminosity"] = data.luminosity;
+			console.log("Time: ", now);
+			console.log("Temperature: ", topicValues["temperature"]);
+			console.log("Humidity: ", topicValues["humidity"]);
+			console.log("Luminosity: ", topicValues["luminosity"]);	
+		} 
+		catch (error) {
+			console.error('Error parsing JSON:', error);
+		}
+	}
 });
 
 // DB connect using MySQL
-// import connection from "./db/connection.js";
-// connection.connect(function(err) {
-// 	if (err) throw err;
-// 	console.log("Connected to DataBase!!!")
-// });
+import connection from "./db/connection.js";
+connection.connect((err) => {
+	if (err){
+		console.log("Error connecting to DataBase!!!", err);
+		return;
+	}
+	console.log("Connected to DataBase!!!")
+});
 
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => console.log(`The app start on ${PORT}`));
