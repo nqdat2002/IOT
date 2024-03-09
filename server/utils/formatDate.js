@@ -10,11 +10,11 @@ const formatDate = (date) => {
     };
     const formatter = new Intl.DateTimeFormat("en-US", options);
     const [
-        { value: year },
-        ,
         { value: month },
         ,
         { value: day },
+        ,
+        { value: year },
         ,
         { value: hour },
         ,
@@ -25,5 +25,5 @@ const formatDate = (date) => {
 
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 };
-
+console.log(formatDate(new Date()));
 export default formatDate;

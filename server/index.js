@@ -1,15 +1,17 @@
 import express from "express";
 import todoRouter from "./routers/todoRouter.js";
+import dataSensor from "./routers/dataSensor.js";
+import {CreateDataSensor} from "./controllers/dataSensor.js";
 
 import dotenv from "dotenv";
 
 dotenv.config({ path: "./config.env" });
 const app = express();
 app.use(express.json());
-
-// app.get("/", (req, res) => res.send("Hello world."));
+app.get("/", (req, res) => res.send("Hello world."));
 
 // app.use("/", todoRouter);
+app.use("/api/datasensor", (req, res) => res.send("Hello dataSensor."));
 
 import mqtt from "mqtt";
 import formatDate from "./utils/formatDate.js";
@@ -28,10 +30,21 @@ let topicValues = {
     "temperature": null,
 	"humidity": null,
     "luminosity": null,
+	"date": null,
 }
 
+// DB connect using MySQL
+import connection from "./db/connection.js";
+connection.connect((err) => {
+	if (err){
+		console.log("Error connecting to DataBase!!!", err);
+		return;
+	}
+	console.log("Connected to DataBase!!!")
+});
+
 const topics_sub = ["esp32/datasensors", "esp32/temperature", "esp32/humidity", "esp32/luminosity"];
-const topics_pub = ["esp32/led/LED_02", "esp32/led/LED_04", "esp32/led/LED_status"];
+const topics_pub = ["esp32/led/LED_02", "esp32/led/LED_04", "esp32/led/LED_All", "esp32/led/LED_status"];
 
 // connect the client to the broker
 console.log("connected flag  " + client.connected);
@@ -48,7 +61,6 @@ client.on("connect", () => {
 		}
 	});
 });
-
 client.on("message", (topic, message) => {
 	if (topic == "esp32/datasensors"){
 		try {
@@ -57,10 +69,12 @@ client.on("message", (topic, message) => {
 			topicValues["temperature"] = data.temperature;
 			topicValues["humidity"] = data.humidity;
 			topicValues["luminosity"] = data.luminosity;
-			console.log("Time: ", now);
-			console.log("Temperature: ", topicValues["temperature"]);
-			console.log("Humidity: ", topicValues["humidity"]);
-			console.log("Luminosity: ", topicValues["luminosity"]);	
+			topicValues["date"] = now;
+			console.log("Date Created: ", now);
+			console.log("Temperature: ", data.temperature);
+			console.log("Humidity: ", data.humidity);
+			console.log("Luminosity: ", data.luminosity);	
+			// CreateDataSensor(connection, topicValues);
 		} 
 		catch (error) {
 			console.error('Error parsing JSON:', error);
@@ -68,15 +82,6 @@ client.on("message", (topic, message) => {
 	}
 });
 
-// DB connect using MySQL
-import connection from "./db/connection.js";
-connection.connect((err) => {
-	if (err){
-		console.log("Error connecting to DataBase!!!", err);
-		return;
-	}
-	console.log("Connected to DataBase!!!")
-});
 
 const PORT = process.env.PORT || 8080;
 
