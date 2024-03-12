@@ -1,9 +1,10 @@
+import e from "express";
 import connection from "../db/connection.js";
 
-// async function
-export async function getAllDataSensor(req, res, next) {
+//async function 
+export async function getAllActionHistory(req, res, next) {
     try {
-        const sql = "SELECT id, temperature, humidity, luminosity, DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors";
+        const sql = "SELECT id, device_id, action, DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM actionhistory";
         // console.log(sql);
 
         connection.query(sql, async (err, result, fields) => {
@@ -14,16 +15,22 @@ export async function getAllDataSensor(req, res, next) {
             return res.status(200).json(result);
         });
     } catch (error) {
-        console.error("Error in getAllDataSensor: ", error);
+        console.error("Error in getAllActionHistory: ", error);
         return res.status(500).json({ error: "Internal Server Error" });
     }
-    
 };
 
+export async function changeActionHisrory(req, res, next) {
+    const action = req.body.action; 
+    res.json({ status: 'success', action });
+}
+
 // non async function
-export function CreateDataSensor(data){
-    var sql = `INSERT INTO datasensors (temperature, humidity, luminosity, date) VALUES ('${data.temperature}', '${data.humidity}', '${data.luminosity}', '${data.date}')`;
-    // console.log(sql);
+function CreateActionHistory(data){
+    
+    var sql = `INSERT INTO actionhistory (device_id, action, date) VALUES ('${data.device_id}', '${data.action}', '${data.date}')`;
+    // console.log(sql)
+    
     connection.query(sql, function (err, result) {
         if (err){
             console.log("Error inserting record: ", err);

@@ -20,16 +20,16 @@ import './Dashboard.css';
 Chart.register(CategoryScale);
 
 const Dashboard = () => {
-	const [temperature_value, setTemperatureValue] = useState(Math.floor(Math.random() * 100));
-	const [humidity_value, setHumidityValue] = useState(Math.floor(Math.random() * 100));
-	const [luminosity_value, setLuminosityValue] = useState(Math.floor(Math.random() * 4000));
+	const [temperature_value, setTemperatureValue] = useState(0);
+	const [humidity_value, setHumidityValue] = useState(0);
+	const [luminosity_value, setLuminosityValue] = useState(0);
 
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setTemperatureValue(Math.floor(Math.random() * 100));
-			setHumidityValue(Math.floor(Math.random() * 100));
-			setLuminosityValue(Math.floor(Math.random() * 4000));
+			setTemperatureValue(0);
+			setHumidityValue(0);
+			setLuminosityValue(0);
 		}, 1000);
 		return () => clearInterval(interval);
 	}, []); 
@@ -80,7 +80,7 @@ const Dashboard = () => {
 
 			<div className="second-row">
 				<div className="main-graph" >
-					<MyChart temperature_value={temperature_value} humidity_value={humidity_value} luminosity_value={luminosity_value}/>
+					<MyChart/>
 				</div>
 				<div className="list-btn">
 					<GroupButton 

@@ -1,16 +1,17 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { getAllDataSensorHandler } from "../api";
 
 class MyChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: {
-                labels: [0],
+                labels: Array.from({ length: 15 }, (_, index) => index),
                 datasets: [
                     {
                         label: "Temperature",
-                        data: [0],
+                        data: Array(15).fill(0),
                         borderColor: '#E15D1F',
                         lineTension: 0.5,
                         fill: true,
@@ -18,7 +19,7 @@ class MyChart extends React.Component {
                     },
                     {
                         label: "Humidity",
-                        data: [0],
+                        data: Array(15).fill(0),
                         borderColor: '#1FC7E1',
                         lineTension: 0.5,
                         fill: true,
@@ -26,7 +27,7 @@ class MyChart extends React.Component {
                     },
                     {
                         label: "Luminosity",
-                        data: [0],
+                        data: Array(15).fill(0),
                         borderColor: '#ECEE4F',
                         lineTension: 0.5,
                         fill: true,
@@ -35,25 +36,56 @@ class MyChart extends React.Component {
                 ],
             }
         };
-        // this.temperature_value = props.temperature_value;
-        // this.humidity_value = props.humidity_value;
-        // this.luminosity_value = props.luminosity_value;
     }
     
-    componentDidMount() {
-        this.interval = setInterval(() => {
-            this.setState(prevState => {
-                // let newLabels = [...prevState.data.labels];
-                // let newDatasets = prevState.data.datasets.map(dataset => ({
-                //     ...dataset,
-                //     data: [...dataset.data, Math.floor(Math.random() * 100)]
-                // }));
+    async componentDidMount() {
+        await this.updateChartData(); // Initial API call
+        this.interval = setInterval(this.updateChartData, 4000);
+    }
+
+    // updateChartData(responseData){
+    //     this.setState(prevState => {
+    //         let newLabels = prevState.data.labels;
+    //         let newDatasets = prevState.data.datasets;
+           
+
+    //         let now = responseData.dateCreate;
+    //         if (newLabels.length > 15) {
+    //             newLabels.shift();
+    //             newDatasets[0].data.shift();
+    //             newDatasets[1].data.shift();
+    //             newDatasets[2].data.shift();
+    //         }
+    //         newLabels.push(now);
+    //         newDatasets[0].data.push(responseData.temperature);
+    //         newDatasets[1].data.push(responseData.humidity);
+    //         newDatasets[2].data.push(responseData.luminosity);
+
+    //         console.log("ver 1", responseData.temperature, responseData.humidity, responseData.luminosity);
+
+    //         return {
+    //             data: {
+    //                 ...prevState.data,
+    //                 labels: newLabels,
+    //                 datasets: newDatasets
+    //             }
+    //         };
+    //     });
+    // }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    updateChartData = async () => {
+        try {
+            const responseData = await getAllDataSensorHandler();
+            this.setState((prevState) => {
                 let newLabels = prevState.data.labels;
                 let newDatasets = prevState.data.datasets;
-               
-
-                let now = new Date();
-                now = ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" +  ("0" + now.getSeconds()).slice(-2);
+                
+                let len = responseData.length;
+                let now = responseData[len - 15].dateCreated.split(" ")[1];
                 if (newLabels.length > 15) {
                     newLabels.shift();
                     newDatasets[0].data.shift();
@@ -61,12 +93,12 @@ class MyChart extends React.Component {
                     newDatasets[2].data.shift();
                 }
                 newLabels.push(now);
-                newDatasets[0].data.push(this.props.temperature_value);
-                newDatasets[1].data.push(this.props.humidity_value);
-                newDatasets[2].data.push(this.props.luminosity_value);
-
-                console.log("ver 1", this.props.temperature_value, this.props.humidity_value, this.props.luminosity_value);
-
+                newDatasets[0].data.push(responseData[len - 15].temperature);
+                newDatasets[1].data.push(responseData[len - 15].humidity);
+                newDatasets[2].data.push(responseData[len - 15].luminosity);
+    
+                console.log("ver 1", responseData[len - 15].temperature, responseData[len - 15].humidity, responseData[len - 15].luminosity);
+    
                 return {
                     data: {
                         ...prevState.data,
@@ -75,13 +107,11 @@ class MyChart extends React.Component {
                     }
                 };
             });
-        }, 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-
+        } catch (error) {
+          console.error("Error updating chart data: ", error);
+        }
+    };
+    
     render() {
         return (
             <Line

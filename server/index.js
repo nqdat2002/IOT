@@ -4,14 +4,27 @@ import dataSensor from "./routers/dataSensor.js";
 import {CreateDataSensor} from "./controllers/dataSensor.js";
 
 import dotenv from "dotenv";
+// import bodyParser from "body-parser";
+import cors from "cors";
 
 dotenv.config({ path: "./config.env" });
 const app = express();
 app.use(express.json());
+// app.use(bodyParser.json());
+
+app.use(
+    cors(
+    {
+        origin : ["http://localhost:3000"],
+        credentials: true, 
+    })
+);
+
+// api home
 app.get("/", (req, res) => res.send("Hello world."));
 
 // app.use("/", todoRouter);
-app.use("/api/datasensor", (req, res) => res.send("Hello dataSensor."));
+app.use("/api/datasensor", dataSensor);
 
 import mqtt from "mqtt";
 import formatDate from "./utils/formatDate.js";
@@ -33,15 +46,6 @@ let topicValues = {
 	"date": null,
 }
 
-// DB connect using MySQL
-import connection from "./db/connection.js";
-connection.connect((err) => {
-	if (err){
-		console.log("Error connecting to DataBase!!!", err);
-		return;
-	}
-	console.log("Connected to DataBase!!!")
-});
 
 const topics_sub = ["esp32/datasensors", "esp32/temperature", "esp32/humidity", "esp32/luminosity"];
 const topics_pub = ["esp32/led/LED_02", "esp32/led/LED_04", "esp32/led/LED_All", "esp32/led/LED_status"];
@@ -74,7 +78,9 @@ client.on("message", (topic, message) => {
 			console.log("Temperature: ", data.temperature);
 			console.log("Humidity: ", data.humidity);
 			console.log("Luminosity: ", data.luminosity);	
-			// CreateDataSensor(connection, topicValues);
+
+			// save data to db
+			CreateDataSensor(topicValues);
 		} 
 		catch (error) {
 			console.error('Error parsing JSON:', error);
@@ -85,4 +91,13 @@ client.on("message", (topic, message) => {
 
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => console.log(`The app start on ${PORT}`));
+// DB connect using MySQL
+import connection from "./db/connection.js";
+connection.connect((err) => {
+	if (err){
+		console.log("Error connecting to DataBase!!!", err);
+		return;
+	}
+	console.log("Connected to DataBase!!!");
+	app.listen(PORT, () => console.log(`The app start on ${PORT}`));
+});
