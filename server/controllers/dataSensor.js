@@ -22,7 +22,7 @@ export async function getAllDataSensor(req, res, next) {
 
 // non async function
 export function CreateDataSensor(data){
-    var sql = `INSERT INTO datasensors (temperature, humidity, luminosity, date) VALUES ('${data.temperature}', '${data.humidity}', '${data.luminosity}', '${data.date}')`;
+    var sql = `INSERT INTO datasensors (temperature, humidity, luminosity, date) VALUES ('${data.temperature}', '${data.humidity}', '${data.luminosity}', '${data.dateCreated}')`;
     // console.log(sql);
     connection.query(sql, function (err, result) {
         if (err){

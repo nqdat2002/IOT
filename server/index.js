@@ -6,6 +6,8 @@ import {CreateDataSensor} from "./controllers/dataSensor.js";
 import dotenv from "dotenv";
 // import bodyParser from "body-parser";
 import cors from "cors";
+import mqtt from "mqtt";
+import formatDate from "./utils/formatDate.js";
 
 dotenv.config({ path: "./config.env" });
 const app = express();
@@ -26,8 +28,7 @@ app.get("/", (req, res) => res.send("Hello world."));
 // app.use("/", todoRouter);
 app.use("/api/datasensor", dataSensor);
 
-import mqtt from "mqtt";
-import formatDate from "./utils/formatDate.js";
+
 
 const options = {
 	clientId: process.env.MQTT_CLIENT_ID,
@@ -43,7 +44,7 @@ let topicValues = {
     "temperature": null,
 	"humidity": null,
     "luminosity": null,
-	"date": null,
+	"dateCreated": null,
 }
 
 
@@ -73,7 +74,7 @@ client.on("message", (topic, message) => {
 			topicValues["temperature"] = data.temperature;
 			topicValues["humidity"] = data.humidity;
 			topicValues["luminosity"] = data.luminosity;
-			topicValues["date"] = now;
+			topicValues["dateCreated"] = now;
 			console.log("Date Created: ", now);
 			console.log("Temperature: ", data.temperature);
 			console.log("Humidity: ", data.humidity);
