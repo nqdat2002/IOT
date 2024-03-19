@@ -17,6 +17,8 @@ import { CategoryScale } from "chart.js";
 
 import MyChart from '../components/MyChart';
 import './Dashboard.css';
+
+import { changeActionHistoryHandler } from '../api';
 Chart.register(CategoryScale);
 
 const Dashboard = () => {
@@ -39,11 +41,17 @@ const Dashboard = () => {
 	const [fanButtonLabel, setFanButtonLabel] = useState("OFF");
 
 	const handleToggleLight = () => {
-		setLightButtonLabel((prevLabel) => (prevLabel === "ON" ? "OFF" : "ON"));
+		const newlightButtonLabel = lightButtonLabel === "ON" ? "OFF" : "ON";
+		changeActionHistoryHandler({"light": newlightButtonLabel.toLocaleLowerCase(), "fan": fanButtonLabel.toLocaleLowerCase()});
+		setLightButtonLabel(newlightButtonLabel);
+		console.log("Light button is clicked");
 	};
 
 	const handleToggleFan = () => {
-		setFanButtonLabel((prevLabel) => (prevLabel === "ON" ? "OFF" : "ON"));
+		const newfanButtonLabel = fanButtonLabel === "ON" ? "OFF" : "ON";
+		changeActionHistoryHandler({"light": lightButtonLabel.toLocaleLowerCase(), "fan": newfanButtonLabel.toLocaleLowerCase()});
+		setFanButtonLabel(newfanButtonLabel);
+		console.log("Fan button is clicked");
 	};
 
 	return (

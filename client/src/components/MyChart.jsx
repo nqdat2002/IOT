@@ -85,6 +85,7 @@ class MyChart extends React.Component {
                 let newDatasets = prevState.data.datasets;
                 
                 let len = responseData.length;
+                if (len === 0) return;
                 let now = responseData[len - 15].dateCreated.split(" ")[1];
                 if (newLabels.length > 15) {
                     newLabels.shift();

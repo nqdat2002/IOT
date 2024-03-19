@@ -1,11 +1,11 @@
 import axios from "axios";
 const baseURL = "http://localhost:5000/";
 
-export const changeActionHistoryHandler = async (action, device_topic) => {
+export const changeActionHistoryHandler = async (changeObject) => {
     try {
         const response = await axios.post(
-            baseURL + `api/actionhistory/${device_topic}`, 
-            { action, device_topic }
+            baseURL + `api/actionhistory/change`, 
+            changeObject
         );
         console.log(response);
     } catch (err) {

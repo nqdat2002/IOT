@@ -26,13 +26,10 @@ app.get("/", (req, res) => res.send("Hello world."));
 app.use("/api/datasensor", dataSensor);
 app.use("/api/actionhistory", actionHistory);
 
-const topics_sub = ["esp32/datasensors", "esp32/ledStatus", "esp32/temperature", "esp32/humidity", "esp32/luminosity"];
-const topics_pub = ["esp32/led/LED_02", "esp32/led/LED_04", "esp32/led/LED_All", "esp32/led"];
+const topics_sub = ["esp32/datasensors", "esp32/ledStatus"];
+const topics_pub = ["esp32/led"];
 
-// mqtt client connect, publish and subscribe
-// mqttClient.connectMqtt();
 mqttClient.subMqtt(topics_sub);
-mqttClient.msgMqtt();
 
 const PORT = process.env.PORT || 8080;
 

@@ -36,6 +36,7 @@ const mqttClient = {
     client: null,
     connectMqtt: () => {
         mqttClient.client = mqtt.connect(`${MQTT_IP_ADDRESS}`, options);
+        
         console.log("connected flag  " + mqttClient.client.connected);
         mqttClient.client.on("connect", () => {	
 	        console.log("connected with " + mqttClient.client.connected);
@@ -43,17 +44,17 @@ const mqttClient = {
     },
 
     pubMqtt: (topic, message) => {
-        mqttClient.client.on("connect", () => {
-            // console.log("connected  " + client.connected);
+        if (mqttClient.client.connected) {
+            console.log("connected  " + mqttClient.client.connected);
             mqttClient.client.publish(topic, message, (err) => {
                 if(err){
                     console.log("Error: ", err);
                     return;
                 }
-                console.log("Message is published");
+                else console.log("Message is published");
                 // client.end();
             });
-        });
+        }
         mqttClient.client.on('error', (err) => {
             console.error('Error occurred:', err);
         });
@@ -61,10 +62,13 @@ const mqttClient = {
 
     subMqtt: (topic) => {
         mqttClient.client.on("connect", () => {
+            console.log("connected  " + mqttClient.client.connected);
             mqttClient.client.subscribe(topic, (err) => {
                 if (!err) {
                     console.log("Subscribed to topics: ", topic);
+                    return;
                 }
+                console.log("Error: ", err);
             });
         });
 
@@ -92,8 +96,8 @@ const mqttClient = {
                     // save data to db
                     CreateDataSensor(topicValues);
                 } 
-                catch (error) {
-                    console.error('Error parsing JSON:', error);
+                catch (err) {
+                    console.error('Error parsing JSON:', err);
                 }
             }
 
@@ -112,11 +116,20 @@ const mqttClient = {
                     // save data to db
                     // CreateActionHistory(data);
                 } 
-                catch (error) {
-                    console.error('Error parsing JSON:', error);
+                catch (err) {
+                    console.error('Error parsing JSON:', err);
                 }
             }
         });
+        mqttClient.client.on('error', (err) => {
+            console.error('Error occurred:', err);
+        });
+    }
+
+    ,
+    msgwithCallBackMqtt: (callback) => {
+        mqttClient.client.on("message", callback);
+
         mqttClient.client.on('error', (err) => {
             console.error('Error occurred:', err);
         });

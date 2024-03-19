@@ -1,6 +1,6 @@
-import e from "express";
 import connection from "../db/connection.js";
-
+import mqttClient from "../mqttClient.js";
+import formatDate from "../utils/formatDate.js";
 //async function 
 export async function getAllActionHistory(req, res, next) {
     try {
@@ -20,9 +20,36 @@ export async function getAllActionHistory(req, res, next) {
     }
 };
 
-export async function changeActionHisrory(req, res, next) {
-    const action = req.body.action; 
-    res.json({ status: 'success', action });
+export async function changeAction(req, res, next) {
+    try {
+        const data = req.body;
+        console.log('data send from client: ', data);
+        
+        const message = { "Led_1": data.light, "Led_2": data.fan };
+
+        console.log('message send to mqtt client: ', JSON.stringify(message));
+        mqttClient.pubMqtt("esp32/led", JSON.stringify(message));
+        mqttClient.msgwithCallBackMqtt(mqttResponseHandler);
+
+        const mqttResponseHandler = (topic, message) => {
+            if (topic == "esp32/ledStatus"){
+                try {
+                    const now = formatDate(new Date());
+                    const recieve = JSON.parse(message.toString());
+                    console.log("Recieved Msg: ", recieve);
+
+                    // save data to db
+                    // CreateActionHistory(recieve);
+                } 
+                catch (err) {
+                    console.error('Error parsing JSON:', err);
+                }
+            }
+        };
+    } catch (error) {
+        console.error("Error in changeAction: ", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
 }
 
 // non async function

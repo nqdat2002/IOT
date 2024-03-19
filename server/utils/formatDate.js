@@ -25,5 +25,5 @@ const formatDate = (date) => {
 
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 };
-console.log(formatDate(new Date()));
+// console.log(formatDate(new Date()));
 export default formatDate;
