@@ -18,23 +18,147 @@ import { CategoryScale } from "chart.js";
 import MyChart from '../components/MyChart';
 import './Dashboard.css';
 
-import { changeActionHistoryHandler } from '../api';
+import { changeActionHistoryHandler, getAllDataSensorHandler } from '../api';
 Chart.register(CategoryScale);
 
 const Dashboard = () => {
 	const [temperature_value, setTemperatureValue] = useState(0);
 	const [humidity_value, setHumidityValue] = useState(0);
 	const [luminosity_value, setLuminosityValue] = useState(0);
-
-
+	const [dataSensor, setDataSensor] = useState([
+		{
+			"id": 18,
+			"temperature": 20,
+			"humidity": 72,
+			"luminosity": 1872,
+			"dateCreated": "2024-03-10 12:40:12"
+		},
+		{
+			"id": 19,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1695,
+			"dateCreated": "2024-03-10 12:41:10"
+		},
+		{
+			"id": 20,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1871,
+			"dateCreated": "2024-03-10 12:41:15"
+		},
+		{
+			"id": 21,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1871,
+			"dateCreated": "2024-03-10 12:41:20"
+		},
+		{
+			"id": 22,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1863,
+			"dateCreated": "2024-03-10 12:41:25"
+		},
+		{
+			"id": 23,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1685,
+			"dateCreated": "2024-03-10 12:41:30"
+		},
+		{
+			"id": 24,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1867,
+			"dateCreated": "2024-03-10 12:41:37"
+		},
+		{
+			"id": 25,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1872,
+			"dateCreated": "2024-03-10 12:41:40"
+		},
+		{
+			"id": 26,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1867,
+			"dateCreated": "2024-03-10 12:41:45"
+		},
+		{
+			"id": 27,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1860,
+			"dateCreated": "2024-03-10 12:42:01"
+		},
+		{
+			"id": 28,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1860,
+			"dateCreated": "2024-03-10 12:42:01"
+		},
+		{
+			"id": 29,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1685,
+			"dateCreated": "2024-03-10 12:42:01"
+		},
+		{
+			"id": 30,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1869,
+			"dateCreated": "2024-03-10 12:42:05"
+		},
+		{
+			"id": 31,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1859,
+			"dateCreated": "2024-03-10 12:42:12"
+		},
+		{
+			"id": 32,
+			"temperature": 20,
+			"humidity": 71,
+			"luminosity": 1861,
+			"dateCreated": "2024-03-10 12:42:15"
+		},
+	]);
 	useEffect(() => {
-		const interval = setInterval(() => {
-			setTemperatureValue(0);
-			setHumidityValue(0);
-			setLuminosityValue(0);
-		}, 1000);
-		return () => clearInterval(interval);
-	}, []); 
+		const fetchDataSensor = async () => {
+			const response = await getAllDataSensorHandler();
+			const responseData = response.data[response.data.length - 1];
+			setDataSensor(prevData => {
+				const newDataSensor = [...prevData];
+				const newData = {
+					temperature: responseData.temperature,
+					humidity: responseData.humidity,
+					luminosity: responseData.luminosity,
+					dateCreated: responseData.dateCreated
+				};
+				newDataSensor.push(newData);
+				newDataSensor.shift();
+				setTemperatureValue(newData.temperature);
+				setHumidityValue(newData.humidity);
+				setLuminosityValue(newData.luminosity);
+				return newDataSensor;
+			});
+		}
+
+		const intervalId = setInterval(() => {
+			fetchDataSensor();
+		}, 5000);
+
+		return () => clearInterval(intervalId);
+	}, [dataSensor]);
 
 
 	const [lightButtonLabel, setLightButtonLabel] = useState("OFF");
@@ -42,16 +166,16 @@ const Dashboard = () => {
 
 	const handleToggleLight = () => {
 		const newlightButtonLabel = lightButtonLabel === "ON" ? "OFF" : "ON";
-		changeActionHistoryHandler({"light": newlightButtonLabel.toLocaleLowerCase(), "fan": fanButtonLabel.toLocaleLowerCase()});
+		changeActionHistoryHandler({ "light": newlightButtonLabel.toLocaleLowerCase(), "fan": fanButtonLabel.toLocaleLowerCase() });
 		setLightButtonLabel(newlightButtonLabel);
-		console.log("Light button is clicked");
+		console.log("Light button is clicked to change");
 	};
 
 	const handleToggleFan = () => {
 		const newfanButtonLabel = fanButtonLabel === "ON" ? "OFF" : "ON";
-		changeActionHistoryHandler({"light": lightButtonLabel.toLocaleLowerCase(), "fan": newfanButtonLabel.toLocaleLowerCase()});
+		changeActionHistoryHandler({ "light": lightButtonLabel.toLocaleLowerCase(), "fan": newfanButtonLabel.toLocaleLowerCase() });
 		setFanButtonLabel(newfanButtonLabel);
-		console.log("Fan button is clicked");
+		console.log("Fan button is clicked to change");
 	};
 
 	return (
@@ -88,13 +212,13 @@ const Dashboard = () => {
 
 			<div className="second-row">
 				<div className="main-graph" >
-					<MyChart/>
+					<MyChart data={dataSensor}/>
 				</div>
 				<div className="list-btn">
-					<GroupButton 
-						value={lightButtonLabel} 
-						icon={lightButtonLabel === "OFF" ? light_off_icon : light_on_icon} 
-						onClick={handleToggleLight}  
+					<GroupButton
+						value={lightButtonLabel}
+						icon={lightButtonLabel === "OFF" ? light_off_icon : light_on_icon}
+						onClick={handleToggleLight}
 						isActive={false}
 					/>
 					<GroupButton
@@ -102,7 +226,7 @@ const Dashboard = () => {
 						icon={fanButtonLabel === "OFF" ? fan_icon : fan_icon}
 						onClick={handleToggleFan}
 						isActive={fanButtonLabel === "ON" ? true : false}
-					/>				
+					/>
 				</div>
 			</div>
 		</div>

@@ -12,7 +12,7 @@ export async function getAllActionHistory(req, res, next) {
                 console.log("Error getting records: ", err);
                 return res.status(500).json(err);
             }
-            return res.status(200).json(result);
+            return res.status(200).send({data: result, message : "success"});
         });
     } catch (error) {
         console.error("Error in getAllActionHistory: ", error);
@@ -27,7 +27,7 @@ export async function changeAction(req, res, next) {
         
         const message = { "Led_1": data.light, "Led_2": data.fan };
 
-        console.log('message send to mqtt client: ', JSON.stringify(message));
+        // console.log('message send to mqtt client: ', JSON.stringify(message));
         mqttClient.pubMqtt("esp32/led", JSON.stringify(message));
         mqttClient.msgwithCallBackMqtt(mqttResponseHandler);
 
@@ -40,6 +40,7 @@ export async function changeAction(req, res, next) {
 
                     // save data to db
                     // CreateActionHistory(recieve);
+                    res.status(200).send({ message: recieve });
                 } 
                 catch (err) {
                     console.error('Error parsing JSON:', err);
@@ -50,7 +51,7 @@ export async function changeAction(req, res, next) {
         console.error("Error in changeAction: ", error);
         return res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
 // non async function
 function CreateActionHistory(data){

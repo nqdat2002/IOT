@@ -11,7 +11,7 @@ export async function getAllDataSensor(req, res, next) {
                 console.log("Error getting records: ", err);
                 return res.status(500).json(err);
             }
-            return res.status(200).json(result);
+            return res.status(200).send({data: result, message: 'success'});
         });
     } catch (error) {
         console.error("Error in getAllDataSensor: ", error);

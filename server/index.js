@@ -30,6 +30,7 @@ const topics_sub = ["esp32/datasensors", "esp32/ledStatus"];
 const topics_pub = ["esp32/led"];
 
 mqttClient.subMqtt(topics_sub);
+mqttClient.msgMqtt();
 
 const PORT = process.env.PORT || 8080;
 

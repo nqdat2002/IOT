@@ -1,6 +1,5 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { getAllDataSensorHandler } from "../api";
 
 class MyChart extends React.Component {
     constructor(props) {
@@ -38,81 +37,47 @@ class MyChart extends React.Component {
         };
     }
     
-    async componentDidMount() {
-        await this.updateChartData(); // Initial API call
-        this.interval = setInterval(this.updateChartData, 4000);
-    }
-
-    // updateChartData(responseData){
-    //     this.setState(prevState => {
-    //         let newLabels = prevState.data.labels;
-    //         let newDatasets = prevState.data.datasets;
-           
-
-    //         let now = responseData.dateCreate;
-    //         if (newLabels.length > 15) {
-    //             newLabels.shift();
-    //             newDatasets[0].data.shift();
-    //             newDatasets[1].data.shift();
-    //             newDatasets[2].data.shift();
-    //         }
-    //         newLabels.push(now);
-    //         newDatasets[0].data.push(responseData.temperature);
-    //         newDatasets[1].data.push(responseData.humidity);
-    //         newDatasets[2].data.push(responseData.luminosity);
-
-    //         console.log("ver 1", responseData.temperature, responseData.humidity, responseData.luminosity);
-
-    //         return {
-    //             data: {
-    //                 ...prevState.data,
-    //                 labels: newLabels,
-    //                 datasets: newDatasets
-    //             }
-    //         };
-    //     });
-    // }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-
-    updateChartData = async () => {
-        try {
-            const responseData = await getAllDataSensorHandler();
-            this.setState((prevState) => {
-                let newLabels = prevState.data.labels;
-                let newDatasets = prevState.data.datasets;
-                
-                let len = responseData.length;
-                if (len === 0) return;
-                let now = responseData[len - 15].dateCreated.split(" ")[1];
-                if (newLabels.length > 15) {
-                    newLabels.shift();
-                    newDatasets[0].data.shift();
-                    newDatasets[1].data.shift();
-                    newDatasets[2].data.shift();
+    componentDidUpdate(prevProps) {
+        if (this.props.data !== prevProps.data) {
+            const newLabels = this.props.data.map(item => item.dateCreated);
+            const newData = {
+                temperature: this.props.data.map(item => item.temperature),
+                humidity: this.props.data.map(item => item.humidity),
+                luminosity: this.props.data.map(item => item.luminosity)
+            };
+            this.setState({
+                data: {
+                    labels: newLabels,
+                    datasets: [
+                        {
+                            label: "Temperature",
+                            data: newData.temperature,
+                            borderColor: '#E15D1F',
+                            lineTension: 0.5,
+                            fill: true,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: "Humidity",
+                            data: newData.humidity,
+                            borderColor: '#1FC7E1',
+                            lineTension: 0.5,
+                            fill: true,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: "Luminosity",
+                            data: newData.luminosity,
+                            borderColor: '#ECEE4F',
+                            lineTension: 0.5,
+                            fill: true,
+                            yAxisID: 'y1',
+                        },
+                    ],
                 }
-                newLabels.push(now);
-                newDatasets[0].data.push(responseData[len - 15].temperature);
-                newDatasets[1].data.push(responseData[len - 15].humidity);
-                newDatasets[2].data.push(responseData[len - 15].luminosity);
-    
-                console.log("ver 1", responseData[len - 15].temperature, responseData[len - 15].humidity, responseData[len - 15].luminosity);
-    
-                return {
-                    data: {
-                        ...prevState.data,
-                        labels: newLabels,
-                        datasets: newDatasets
-                    }
-                };
             });
-        } catch (error) {
-          console.error("Error updating chart data: ", error);
         }
-    };
-    
+    }
     render() {
         return (
             <Line
