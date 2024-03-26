@@ -22,6 +22,7 @@ import { changeActionHistoryHandler, getAllDataSensorHandler } from '../api';
 Chart.register(CategoryScale);
 
 const Dashboard = () => {
+	
 	const [temperature_value, setTemperatureValue] = useState(0);
 	const [humidity_value, setHumidityValue] = useState(0);
 	const [luminosity_value, setLuminosityValue] = useState(0);
@@ -135,7 +136,14 @@ const Dashboard = () => {
 	useEffect(() => {
 		const fetchDataSensor = async () => {
 			const response = await getAllDataSensorHandler();
+			if (response === undefined) {
+				return;
+			}
 			const responseData = response.data[response.data.length - 1];
+			if (responseData === undefined) {
+				console.log("No data");
+				return;
+			}
 			setDataSensor(prevData => {
 				const newDataSensor = [...prevData];
 				const newData = {
