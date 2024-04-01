@@ -211,7 +211,7 @@ The Internet of Things (IoT) refers to the network of interconnected devices, se
    You can learn more at <a href="https://www.emqx.com/en/blog/how-to-use-mqtt-in-nodejs" target="_blank">here</a>!
    
 ## 5. API Docs
-   <a href="https://documenter.getpostman.com/view/27014654/2sA35HWLBy" target="_blank">API documentatio<a>!
+   <a href="https://documenter.getpostman.com/view/27014654/2sA35HWLBy" target="_blank">API documentation<a>!
 # Contributing
 Contributions to this README are welcome! If you have suggestions, corrections, or additional information related to IoT technologies, feel free to submit a pull request.
 
