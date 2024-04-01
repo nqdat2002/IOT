@@ -174,14 +174,14 @@ const Dashboard = () => {
 
 	const handleToggleLight = () => {
 		const newlightButtonLabel = lightButtonLabel === "ON" ? "OFF" : "ON";
-		changeActionHistoryHandler({ "light": newlightButtonLabel.toLocaleLowerCase(), "fan": fanButtonLabel.toLocaleLowerCase() });
+		changeActionHistoryHandler({ "light": newlightButtonLabel.toLocaleLowerCase(), "fan": fanButtonLabel.toLocaleLowerCase(), "change": "light"});
 		setLightButtonLabel(newlightButtonLabel);
 		console.log("Light button is clicked to change");
 	};
 
 	const handleToggleFan = () => {
 		const newfanButtonLabel = fanButtonLabel === "ON" ? "OFF" : "ON";
-		changeActionHistoryHandler({ "light": lightButtonLabel.toLocaleLowerCase(), "fan": newfanButtonLabel.toLocaleLowerCase() });
+		changeActionHistoryHandler({ "light": lightButtonLabel.toLocaleLowerCase(), "fan": newfanButtonLabel.toLocaleLowerCase(), "change": "fan"});
 		setFanButtonLabel(newfanButtonLabel);
 		console.log("Fan button is clicked to change");
 	};

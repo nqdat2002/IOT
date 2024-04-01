@@ -1,7 +1,8 @@
 import express from "express";
-import { getAllDataSensor} from "../controllers/dataSensor.js";
+import { getAllDataSensor, getFilterDataSensor} from "../controllers/dataSensor.js";
 const router = express.Router();
 
-router.get("/alldatasensor", getAllDataSensor);
+router.get("/all", getAllDataSensor);
+router.get("/filter", getFilterDataSensor);
 
 export default router;

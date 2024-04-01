@@ -19,19 +19,6 @@ let topicValues = {
 	"dateCreated": null,
 };
 
-let ledStatus = {
-    "Led_1": "off",
-    "Led_2": "off",
-}
-
-const updateLedStatus = (led, status) => {
-    if (ledStatus[led] !== status) {
-        ledStatus[led] = status;
-        console.log("now LedStatus: ", ledStatus);
-    }
-};
-
-
 const mqttClient = {
     client: null,
     connectMqtt: () => {
@@ -45,7 +32,7 @@ const mqttClient = {
 
     pubMqtt: (topic, message) => {
         if (mqttClient.client.connected) {
-            console.log("connected  " + mqttClient.client.connected);
+            // console.log("connected  " + mqttClient.client.connected);
             mqttClient.client.publish(topic, message, (err) => {
                 if(err){
                     console.log("Error: ", err);
@@ -127,8 +114,10 @@ const mqttClient = {
     }
 
     ,
-    msgwithCallBackMqtt: (callback) => {
-        mqttClient.client.on("message", callback);
+    msgwithCallBackMqtt: (callback, res) => {
+        mqttClient.client.on("message", (message, topic) => {
+            callback(message, topic, res);
+        });
 
         mqttClient.client.on('error', (err) => {
             console.error('Error occurred:', err);

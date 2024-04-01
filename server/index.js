@@ -26,9 +26,10 @@ app.get("/", (req, res) => res.send("Hello world."));
 app.use("/api/datasensor", dataSensor);
 app.use("/api/actionhistory", actionHistory);
 
-const topics_sub = ["esp32/datasensors", "esp32/ledStatus"];
-const topics_pub = ["esp32/led"];
+const topics_sub = ["esp32/datasensors", "esp32/device_status"];
+const topics_pub = ["esp32/device_control"];
 
+mqttClient.client.setMaxListeners(15);
 mqttClient.subMqtt(topics_sub);
 mqttClient.msgMqtt();
 
