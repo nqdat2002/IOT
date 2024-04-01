@@ -6,7 +6,8 @@ const formatDate = (date) => {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
-        hour12: false, // Use 24-hour format
+        hourCycle: 'h23',
+        // hour12: false, // Use 24-hour format
     };
     const formatter = new Intl.DateTimeFormat("en-US", options);
     const [
@@ -22,7 +23,7 @@ const formatDate = (date) => {
         ,
         { value: second },
     ] = formatter.formatToParts(date);
-
+    // if (hour === 24) hour = "00";
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 };
 // console.log(formatDate(new Date()));

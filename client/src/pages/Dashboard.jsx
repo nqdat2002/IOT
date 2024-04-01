@@ -174,16 +174,24 @@ const Dashboard = () => {
 
 	const handleToggleLight = () => {
 		const newlightButtonLabel = lightButtonLabel === "ON" ? "OFF" : "ON";
-		changeActionHistoryHandler({ "light": newlightButtonLabel.toLocaleLowerCase(), "fan": fanButtonLabel.toLocaleLowerCase(), "change": "light"});
-		setLightButtonLabel(newlightButtonLabel);
-		console.log("Light button is clicked to change");
+		changeActionHistoryHandler({ "light": newlightButtonLabel.toLocaleLowerCase(), "fan": fanButtonLabel.toLocaleLowerCase(), "change": "light"}).then((response) => {
+			// console.log(response.message);
+			setLightButtonLabel(response.message.light === "on" ? "ON" : "OFF");
+		}).catch((err) => {
+			console.error("Error in changeActionHistoryHandler: ", err);
+		});
+		console.log(`Light button is clicked to change ${newlightButtonLabel}`);
 	};
 
 	const handleToggleFan = () => {
 		const newfanButtonLabel = fanButtonLabel === "ON" ? "OFF" : "ON";
-		changeActionHistoryHandler({ "light": lightButtonLabel.toLocaleLowerCase(), "fan": newfanButtonLabel.toLocaleLowerCase(), "change": "fan"});
-		setFanButtonLabel(newfanButtonLabel);
-		console.log("Fan button is clicked to change");
+		changeActionHistoryHandler({ "light": lightButtonLabel.toLocaleLowerCase(), "fan": newfanButtonLabel.toLocaleLowerCase(), "change": "fan"}).then((response) => {
+			// console.log(response.message);
+			setFanButtonLabel(response.message.fan === "on" ? "ON" : "OFF");
+		}).catch((err) => {
+			console.error("Error in changeActionHistoryHandler: ", err);
+		});
+		console.log(`Light button is clicked to change ${newfanButtonLabel}`);
 	};
 
 	return (

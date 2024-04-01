@@ -1,6 +1,7 @@
 import connection from "../db/connection.js";
 import mqttClient from "../mqttClient.js";
 import formatDate from "../utils/formatDate.js";
+import compareObjects from "../utils/compareObject.js";
 //async function 
 export async function getAllActionHistory(req, res, next) {
     try {
@@ -21,7 +22,7 @@ export async function getAllActionHistory(req, res, next) {
 };
 
 const handleRequestData = (data, res) => {
-    res.status(200).send({ message: data , status: "success"});
+    return res.status(200).send({ message: data , status: "success"});
 };
 
 export async function changeAction(req, res, next) {
@@ -36,20 +37,32 @@ export async function changeAction(req, res, next) {
         mqttClient.pubMqtt("esp32/device_control", JSON.stringify(data));
         let responseSent = false;
 
-
         const mqttResponseHandler = (topic, message) => {
             if (!responseSent && topic == "esp32/device_status"){
                 try {
                     const now = formatDate(new Date());
                     const recieve = JSON.parse(message.toString());
-                    console.log("Recieved Msg from esp32/device_status: ", recieve);
-                    const createData = {};
-                    createData.device_id = changedDevice;
-                    createData.action = data[changedDevice];
-                    createData.date = now;
-                    CreateActionHistory(createData);
-                    handleRequestData(data, res);
-                    responseSent = true;
+                    // console.log("Recieved Msg from esp32/device_status: ", recieve);
+                    // replace `is` in the key to ``
+                    let data2 = {
+                        "light": null,
+                        "fan": null
+                    };
+                    for (const key in recieve){
+                        data2[key] = recieve[key].slice(3);
+                    }
+                    // console.log("Recieved Msg after replace: ", data2);
+
+                    if (compareObjects(data, data2)){
+                        const createData = {};
+                        createData.device_id = changedDevice;
+                        createData.action = data[changedDevice];
+                        createData.date = now;
+                        CreateActionHistory(createData);
+                        // console.log(now);
+                        responseSent = true;
+                        return res.status(200).send({ message: data , status: "success"});
+                    }
                 } 
                 catch (err) {
                     console.error('Error parsing JSON:', err);
@@ -63,7 +76,6 @@ export async function changeAction(req, res, next) {
         return res.status(500).send({ error: "Internal Server Error" });
     }
 };
-
 
 export async function getFilterActionHistory(req, res, next) {
     try {
@@ -147,9 +159,9 @@ async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
 
 // non async function
 function CreateActionHistory(data){
-    
+    // console.log("Data to be inserted: ", data);
     var sql = `INSERT INTO actionhistory (device_id, action, date) VALUES ('${data.device_id}', '${data.action}', '${data.date}')`;
-    console.log(sql)
+    // console.log(sql)
     
     connection.query(sql, function (err, result) {
         if (err){

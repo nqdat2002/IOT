@@ -84,7 +84,7 @@ async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
             else sql += ` WHERE ${type} LIKE '%${keyword}%' OR date LIKE '%${keyword}%'`;
             }
 
-        if (sortBy !== 'all') {
+        if (sortBy && sortOrder) {
             sql += ` ORDER BY ${sortBy} ${sortOrder}`;
         }
         // pagination in mysql
