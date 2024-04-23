@@ -29,7 +29,7 @@ app.use("/api/actionhistory", actionHistory);
 const topics_sub = ["esp32/datasensors", "esp32/device_status"];
 const topics_pub = ["esp32/device_control"];
 
-mqttClient.client.setMaxListeners(15);
+mqttClient.client.setMaxListeners(20);
 mqttClient.subMqtt(topics_sub);
 mqttClient.msgMqtt();
 

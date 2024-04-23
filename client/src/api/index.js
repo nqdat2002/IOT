@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:5000/";
+import { baseURL } from "../utils/constant";
 
 export const changeActionHistoryHandler = async (changeObject) => {
     try {
@@ -11,19 +11,6 @@ export const changeActionHistoryHandler = async (changeObject) => {
         return response.data;
     } catch (err) {
         console.error("Error in changeActionHisroryHandler: ", err);
-    }
-};
-
-export const getAllDataSensorHandler = async () => {
-    try {
-        const response = await axios.get(
-            baseURL + "api/datasensor/all"
-        );
-        // console.log(typeof(response.data));
-        // console.log(response.data);
-        return response.data;
-    } catch (err) {
-        console.error("Error in getAllDataSensorHandler: ", err);
     }
 };
 
@@ -41,12 +28,25 @@ export const getAllActionHistoryHandler = async () => {
     }  
 };
 
+
+export const getAllDataSensorHandler = async () => {
+    try {
+        const response = await axios.get(
+            baseURL + "api/datasensor/all"
+        );
+        // console.log(typeof(response.data));
+        // console.log(response.data);
+        return response.data;
+    } catch (err) {
+        console.error("Error in getAllDataSensorHandler: ", err);
+    }
+};
+
+
 export const getFilteredDataSensorHandler = async (filterObject) => {
     try {
         const response = await axios.get(
-            baseURL + "api/datasensor/filter",
-            filterObject
-        );
+            baseURL + `api/datasensor/filter?page=${filterObject.page}&limit=${filterObject.limit}&type=${filterObject.type}`);
         return response.data;
     } catch (err) {
         console.error("Error in getFilteredDataSensorHandler: ", err);

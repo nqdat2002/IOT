@@ -1,143 +1,197 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+import { getFilteredDataSensorHandler } from '../api';
 import './DataSensors.css';
+import Table from '../components/TableData/Table';
+
 
 const DataSensors = () => {
-	const [searchTerm, setSearchTerm] = useState('');
-	const [selectedType, setSelectedType] = useState('all');
+	// params query 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setRowsPerPage] = useState(2);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [selectedType, setSelectedType] = useState('all');
+	const [sortBy, setSortBy] = useState(null);
+	const [sortOrder, setSortOrder] = useState('asc');
+	
+	// data render
+	const [dataRender, setDataSensor] = useState([]);
+	const [totalPages, setTotalPages] = useState(0);
+	
+	// const rawData = [
+	// 	{
+	// 		"id": 18,
+	// 		"temperature": 20,
+	// 		"humidity": 72,
+	// 		"luminosity": 1872,
+	// 		"dateCreated": "2024-03-10 12:40:12"
+	// 	},
+	// 	{
+	// 		"id": 19,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1695,
+	// 		"dateCreated": "2024-03-10 12:41:10"
+	// 	},
+	// 	{
+	// 		"id": 20,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1871,
+	// 		"dateCreated": "2024-03-10 12:41:15"
+	// 	},
+	// 	{
+	// 		"id": 21,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1871,
+	// 		"dateCreated": "2024-03-10 12:41:20"
+	// 	},
+	// 	{
+	// 		"id": 22,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1863,
+	// 		"dateCreated": "2024-03-10 12:41:25"
+	// 	},
+	// 	{
+	// 		"id": 23,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1685,
+	// 		"dateCreated": "2024-03-10 12:41:30"
+	// 	},
+	// 	{
+	// 		"id": 24,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1867,
+	// 		"dateCreated": "2024-03-10 12:41:37"
+	// 	},
+	// 	{
+	// 		"id": 25,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1872,
+	// 		"dateCreated": "2024-03-10 12:41:40"
+	// 	},
+	// 	{
+	// 		"id": 26,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1867,
+	// 		"dateCreated": "2024-03-10 12:41:45"
+	// 	},
+	// 	{
+	// 		"id": 27,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1860,
+	// 		"dateCreated": "2024-03-10 12:42:01"
+	// 	},
+	// 	{
+	// 		"id": 28,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1860,
+	// 		"dateCreated": "2024-03-10 12:42:01"
+	// 	},
+	// 	{
+	// 		"id": 29,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1685,
+	// 		"dateCreated": "2024-03-10 12:42:01"
+	// 	},
+	// 	{
+	// 		"id": 30,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1869,
+	// 		"dateCreated": "2024-03-10 12:42:05"
+	// 	},
+	// 	{
+	// 		"id": 31,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1859,
+	// 		"dateCreated": "2024-03-10 12:42:12"
+	// 	},
+	// 	{
+	// 		"id": 32,
+	// 		"temperature": 20,
+	// 		"humidity": 71,
+	// 		"luminosity": 1861,
+	// 		"dateCreated": "2024-03-10 12:42:15"
+	// 	},
+	// ]
+	
+	// const filteredData = dataRender.filter(item => {
+	// 	// if (selectedType === 'all') {
+	// 	// 	return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+	// 	// } else {
+	// 	// 	return item.name.toLowerCase().includes(searchTerm.toLowerCase()) && item.type === selectedType;
+	// 	// }
 
-	const dataRender = [
-		{
-			"id": 18,
-			"temperature": 20,
-			"humidity": 72,
-			"luminosity": 1872,
-			"dateCreated": "2024-03-10 12:40:12"
-		},
-		{
-			"id": 19,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1695,
-			"dateCreated": "2024-03-10 12:41:10"
-		},
-		{
-			"id": 20,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1871,
-			"dateCreated": "2024-03-10 12:41:15"
-		},
-		{
-			"id": 21,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1871,
-			"dateCreated": "2024-03-10 12:41:20"
-		},
-		{
-			"id": 22,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1863,
-			"dateCreated": "2024-03-10 12:41:25"
-		},
-		{
-			"id": 23,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1685,
-			"dateCreated": "2024-03-10 12:41:30"
-		},
-		{
-			"id": 24,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1867,
-			"dateCreated": "2024-03-10 12:41:37"
-		},
-		{
-			"id": 25,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1872,
-			"dateCreated": "2024-03-10 12:41:40"
-		},
-		{
-			"id": 26,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1867,
-			"dateCreated": "2024-03-10 12:41:45"
-		},
-		{
-			"id": 27,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1860,
-			"dateCreated": "2024-03-10 12:42:01"
-		},
-		{
-			"id": 28,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1860,
-			"dateCreated": "2024-03-10 12:42:01"
-		},
-		{
-			"id": 29,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1685,
-			"dateCreated": "2024-03-10 12:42:01"
-		},
-		{
-			"id": 30,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1869,
-			"dateCreated": "2024-03-10 12:42:05"
-		},
-		{
-			"id": 31,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1859,
-			"dateCreated": "2024-03-10 12:42:12"
-		},
-		{
-			"id": 32,
-			"temperature": 20,
-			"humidity": 71,
-			"luminosity": 1861,
-			"dateCreated": "2024-03-10 12:42:15"
-		},
-	];
+	// 	return true;
 
-	const filteredData = dataRender.filter(item => {
-		// if (selectedType === 'all') {
-		// 	return item.name.toLowerCase().includes(searchTerm.toLowerCase());
-		// } else {
-		// 	return item.name.toLowerCase().includes(searchTerm.toLowerCase()) && item.type === selectedType;
-		// }
+	// });
+	
+	useEffect(() => {
+		const fetchFilteredDataSensprs = async () => {
+			const response = await getFilteredDataSensorHandler({
+				page: currentPage, 
+				limit: itemsPerPage, 
+				keyword: searchTerm,
+				sortBy: sortBy,
+				sortOrder: sortOrder,
+				type: selectedType
+			});
+			if (response === undefined) {
+				return;
+			}
+			const responseData = response.data;
+			
+			setDataSensor(responseData);
+			setTotalPages(response.totalPages);
+			// console.log(responseData);
+			// console.log(totalPages);
+			
+		}
 
-		return true;
+		const intervalId = setInterval(() => {
+			fetchFilteredDataSensprs();
+		}, 2000);
 
-	});
+		return () => clearInterval(intervalId);
+	}, [dataRender, totalPages, currentPage, itemsPerPage, searchTerm, sortBy, sortOrder, selectedType]);
 
-	const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-	const indexOfLastItem = currentPage * itemsPerPage;
-	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-	const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+	// const indexOfLastItem = currentPage * itemsPerPage;
+	// const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+	// const currentItems = dataRender.slice(indexOfFirstItem, indexOfLastItem);
 
 	const paginate = pageNumber => setCurrentPage(pageNumber);
+
 	const handleRowsPerPageChange = (event) => {
 		setRowsPerPage(parseInt(event.target.value));
 		setCurrentPage(1);
 	};
+
+	const handleSelectType = (event) => {
+		setSelectedType(event.target.value);
+		setCurrentPage(1);
+	};
+
+	const handleSearchTerm = (event) => {
+		setSearchTerm(event.target.value);
+		setCurrentPage(1);
+	};
+
+	const handleSort = () => {
+
+	};
+
 	return (
 		<div className="container-datasensor">
 			{/* Search & Filter */}
@@ -149,13 +203,13 @@ const DataSensors = () => {
 						type="text"
 						placeholder="..."
 						value={searchTerm}
-						onChange={e => setSearchTerm(e.target.value)}
+						onChange={handleSearchTerm}
 					/>
 				</div>
 				
 				<div className="topbar__item">
 					<h2>Type</h2>
-					<select value={selectedType} onChange={e => setSelectedType(e.target.value)}>
+					<select onChange={handleSelectType} value={selectedType}>
 						<option value="all">All</option>
 						<option value="temperature">Temperature</option>
 						<option value="humidity">Humidity</option>
@@ -171,12 +225,14 @@ const DataSensors = () => {
 						<option value="5">5</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
+						<option value="50">50</option>
 					</select>
 				</div>
 			</div>
 			
 			{/* Table Data */}
 			<div className="table-container">
+				{/* 
 				<table>
 					<thead>
 						<tr>
@@ -188,7 +244,7 @@ const DataSensors = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{currentItems.map(item => (
+						{dataRender.map(item => (
 							<tr key={item.id}>
 								<td>{item.id}</td>
 								<td>{item.temperature}</td>
@@ -199,6 +255,9 @@ const DataSensors = () => {
 						))}
 					</tbody>
 				</table>
+				 */}
+
+				<Table data={dataRender} handleSort={handleSort}/>
 			</div>
 
 			{/* Pagination */}

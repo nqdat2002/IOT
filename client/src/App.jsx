@@ -12,8 +12,8 @@ function App() {
 		<NavBar />
 		<Routes>
 			<Route path="/" element={<Dashboard/>} />
-			<Route path="/datasensor" element={<DataSensors/>} />
-			<Route path="/history" element={<History/>} />
+			<Route path="/datasensors" element={<DataSensors/>} />
+			<Route path="/actionhistory" element={<History/>} />
 			<Route path="/profile" element={<Profile/>} />
 		</Routes>
     </div>

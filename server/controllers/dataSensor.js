@@ -1,4 +1,3 @@
-import e from "express";
 import connection from "../db/connection.js";
 
 // async function
@@ -60,7 +59,7 @@ export async function getFilterDataSensor(req, res, next) {
             "total": totalRows,
             "totalPages": totalPages,
             "currentPage": currentPage,
-            "rows": rows.slice((currentPage - 1) * limit, Math.min((currentPage - 1) * limit + limit, totalRows))
+            "data": rows.slice((currentPage - 1) * limit, Math.min((currentPage - 1) * limit + limit, totalRows))
         });
     }
     catch (error) {
@@ -75,6 +74,9 @@ async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
         if (type == 'all'){
             sql = `SELECT id, temperature, humidity, luminosity, DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors`;
         }
+        else if (type == 'dateCreated'){
+            sql = 'SELECT `id`, ' + `DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors`;
+        }
         else sql = 'SELECT `id`, ' + '`' + type + '`, ' + `DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors`;
 
 
@@ -82,7 +84,7 @@ async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
             if (type == 'all')
                 sql += ` WHERE temperature LIKE '%${keyword}%' OR humidity LIKE '%${keyword}%' OR luminosity LIKE '%${keyword}%' OR date LIKE '%${keyword}%'`;
             else sql += ` WHERE ${type} LIKE '%${keyword}%' OR date LIKE '%${keyword}%'`;
-            }
+        }
 
         if (sortBy && sortOrder) {
             sql += ` ORDER BY ${sortBy} ${sortOrder}`;
