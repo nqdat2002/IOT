@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getFilteredDataSensorHandler } from '../api';
 import './DataSensors.css';
-import Table from '../components/TableData/Table';
 
+// Table Header
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSort} from '@fortawesome/free-solid-svg-icons';
 
 const DataSensors = () => {
 	// params query 
@@ -11,10 +12,10 @@ const DataSensors = () => {
 	const [itemsPerPage, setRowsPerPage] = useState(2);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedType, setSelectedType] = useState('all');
-	const [sortBy, setSortBy] = useState(null);
+	const [sortBy, setSortBy] = useState('');
 	const [sortOrder, setSortOrder] = useState('asc');
 	
-	// data render
+	// data render which has been loading from database
 	const [dataRender, setDataSensor] = useState([]);
 	const [totalPages, setTotalPages] = useState(0);
 	
@@ -156,6 +157,7 @@ const DataSensors = () => {
 			setTotalPages(response.totalPages);
 			// console.log(responseData);
 			// console.log(totalPages);
+			// console.log(sortBy, sortOrder);
 			
 		}
 
@@ -179,6 +181,9 @@ const DataSensors = () => {
 	};
 
 	const handleSelectType = (event) => {
+		// set to default sort
+		setSortBy('');
+		setSortOrder('asc');
 		setSelectedType(event.target.value);
 		setCurrentPage(1);
 	};
@@ -188,9 +193,11 @@ const DataSensors = () => {
 		setCurrentPage(1);
 	};
 
-	const handleSort = () => {
-
-	};
+	const handleSort = (column, order) => {
+        setSortBy(column);
+        setSortOrder(order);
+		setCurrentPage(1);
+    };
 
 	return (
 		<div className="container-datasensor">
@@ -232,32 +239,10 @@ const DataSensors = () => {
 			
 			{/* Table Data */}
 			<div className="table-container">
-				{/* 
 				<table>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Temperature</th>
-							<th>Humidity</th>
-							<th>Luminosity</th>
-							<th>Date Created</th>
-						</tr>
-					</thead>
-					<tbody>
-						{dataRender.map(item => (
-							<tr key={item.id}>
-								<td>{item.id}</td>
-								<td>{item.temperature}</td>
-								<td>{item.humidity}</td>
-								<td>{item.luminosity}</td>
-								<td>{item.dateCreated}</td>
-							</tr>
-						))}
-					</tbody>
+					<TableHead data={dataRender} sortBy={sortBy} sortOrder={sortOrder} handleSort={handleSort} />
+					<TableBody data={dataRender} />
 				</table>
-				 */}
-
-				<Table data={dataRender} handleSort={handleSort}/>
 			</div>
 
 			{/* Pagination */}
@@ -306,6 +291,61 @@ const Pagination = ({ currentPage, totalPages, paginate }) => {
 			<button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>Next page</button>
 			<button onClick={() => paginate(totalPages)}>Last Page</button>
 		</div>
+	);
+};
+
+const upper = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
+const TableHead = ({ data, sortBy, sortOrder, handleSort}) => {
+    const firstItem = data.length > 0 ? data[0] : {};
+	
+	const handleClickSort = (key) => {
+        if (sortBy === key) {
+            const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+            handleSort(key, newSortOrder); 
+        } else {
+            handleSort(key, 'asc'); 
+        }
+    };
+
+    return (
+        <thead>
+            <tr>
+                {Object.keys(firstItem).map((key) => (
+                    <th key={key} onClick={() => handleClickSort(key)} style={{ cursor: 'pointer' }}>
+					{upper(key)}
+					{/* <FontAwesomeIcon
+						icon={faSort}
+						style={{
+							marginLeft: '5px',
+							cursor: 'pointer',
+							visibility: sortBy === key ? 'visible' : 'hidden', 
+							transform: sortOrder === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)' 
+						}}
+					/> */}
+				</th>
+                ))}
+            </tr>
+        </thead>
+    );
+};
+
+const TableBody = ({ data }) => {
+	return (
+		<tbody>
+			{data.map((item, index) => (
+				<tr key={index}>
+				{
+					Object.keys(item).map(
+						(key) => (
+							<td key={key}>{item[key]}</td>)
+					)
+				}
+				</tr>
+			))}
+		</tbody>
 	);
 };
 

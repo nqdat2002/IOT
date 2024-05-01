@@ -26,7 +26,7 @@ export async function getFilterDataSensor(req, res, next) {
         const limit = parseInt(req.query.limit) || 20;
         const keyword = req.query.keyword || '';
         const sortBy = req.query.sortBy || '';
-        const sortOrder = req.query.sortOrder || '';
+        const sortOrder = req.query.sortOrder || 'asc';
         const type = req.query.type || 'all';
         let query = {};
         if (keyword) {

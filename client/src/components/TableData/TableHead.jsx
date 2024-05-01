@@ -7,7 +7,7 @@ const upper = (word) => {
 };
 
 
-const TableHead = ({ dataHeader, handleSort }) => {
+const TableHead = ({ dataHeader }) => {
     const firstItem = dataHeader.length > 0 ? dataHeader[0] : {};
     
     return (
@@ -19,7 +19,6 @@ const TableHead = ({ dataHeader, handleSort }) => {
                         <FontAwesomeIcon
                             icon={faSort}
                             style={{ marginLeft: '15px', cursor: 'pointer' }}
-                            // onClick={() => handleSort(key)}
                         />
                     </th>
                 ))}

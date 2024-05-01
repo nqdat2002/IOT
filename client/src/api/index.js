@@ -46,7 +46,7 @@ export const getAllDataSensorHandler = async () => {
 export const getFilteredDataSensorHandler = async (filterObject) => {
     try {
         const response = await axios.get(
-            baseURL + `api/datasensor/filter?page=${filterObject.page}&limit=${filterObject.limit}&type=${filterObject.type}`);
+            baseURL + `api/datasensor/filter?page=${filterObject.page}&limit=${filterObject.limit}&type=${filterObject.type}&sortBy=${filterObject.sortBy}&sortOrder=${filterObject.sortOrder}`);
         return response.data;
     } catch (err) {
         console.error("Error in getFilteredDataSensorHandler: ", err);

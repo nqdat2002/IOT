@@ -5,9 +5,12 @@ const TableBody = ({ data }) => {
 		<tbody>
 			{data.map((item, index) => (
 				<tr key={index}>
-					{Object.keys(item).map((key) => (
-						<td key={key}>{item[key]}</td>
-					))}
+				{
+					Object.keys(item).map(
+						(key) => (
+							<td key={key}>{item[key]}</td>)
+					)
+				}
 				</tr>
 			))}
 		</tbody>

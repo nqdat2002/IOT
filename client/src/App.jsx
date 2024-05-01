@@ -3,7 +3,7 @@ import { NavBar } from "./components/NavBar";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import DataSensors from "./pages/DataSensors";
-import History from "./pages/History";
+import ActionHistory from "./pages/ActionHistory";
 import Profile from "./pages/Profile";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
 		<Routes>
 			<Route path="/" element={<Dashboard/>} />
 			<Route path="/datasensors" element={<DataSensors/>} />
-			<Route path="/actionhistory" element={<History/>} />
+			<Route path="/actionhistory" element={<ActionHistory/>} />
 			<Route path="/profile" element={<Profile/>} />
 		</Routes>
     </div>
