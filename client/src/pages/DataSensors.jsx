@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getFilteredDataSensorHandler } from '../api';
+import Pagination from '../components/Pagination';
 import './DataSensors.css';
 
 // Table Header
@@ -254,45 +255,47 @@ const DataSensors = () => {
 				))}
 			</div> */}
 
-			<Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
+			<Pagination curr={currentPage} total={totalPages} paginate={paginate} />
+
+			
 		</div>
 	);
 };
 
-const Pagination = ({ currentPage, totalPages, paginate }) => {
-	const displayPageNumbers = 3;
+// const Pagination = ({ currentPage, totalPages, paginate }) => {
+// 	const displayPageNumbers = 3;
 
-	let startPage = Math.max(1, currentPage - Math.floor(displayPageNumbers / 2));
-	let endPage = Math.min(totalPages, startPage + displayPageNumbers - 1);
+// 	let startPage = Math.max(1, currentPage - Math.floor(displayPageNumbers / 2));
+// 	let endPage = Math.min(totalPages, startPage + displayPageNumbers - 1);
 
-	if (totalPages <= displayPageNumbers) {
-		startPage = 1;
-		endPage = totalPages;
-	} else if (currentPage <= Math.floor(displayPageNumbers / 2)) {
-		endPage = displayPageNumbers;
-	} else if (currentPage + Math.floor(displayPageNumbers / 2) >= totalPages) {
-		startPage = totalPages - displayPageNumbers + 1;
-	}
+// 	if (totalPages <= displayPageNumbers) {
+// 		startPage = 1;
+// 		endPage = totalPages;
+// 	} else if (currentPage <= Math.floor(displayPageNumbers / 2)) {
+// 		endPage = displayPageNumbers;
+// 	} else if (currentPage + Math.floor(displayPageNumbers / 2) >= totalPages) {
+// 		startPage = totalPages - displayPageNumbers + 1;
+// 	}
 
-	const pageNumbers = [];
-	for (let i = startPage; i <= endPage; i++) {
-		pageNumbers.push(i);
-	}
+// 	const pageNumbers = [];
+// 	for (let i = startPage; i <= endPage; i++) {
+// 		pageNumbers.push(i);
+// 	}
 
-	return (
-		<div className="pagination">
-			<button onClick={() => paginate(1)}>{"<<"}</button>
-			<button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>{"<"}</button>
-			{pageNumbers.map(number => (
-				<button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
-					{number}
-				</button>
-			))}
-			<button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>{">"}</button>
-			<button onClick={() => paginate(totalPages)}>{">>"}</button>
-		</div>
-	);
-};
+// 	return (
+// 		<div className="pagination">
+// 			<button onClick={() => paginate(1)}>{"<<"}</button>
+// 			<button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>{"<"}</button>
+// 			{pageNumbers.map(number => (
+// 				<button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
+// 					{number}
+// 				</button>
+// 			))}
+// 			<button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>{">"}</button>
+// 			<button onClick={() => paginate(totalPages)}>{">>"}</button>
+// 		</div>
+// 	);
+// };
 
 const upper = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
