@@ -18,7 +18,7 @@ const TableHead = ({ dataHeader }) => {
                         {upper(key)}
                         <FontAwesomeIcon
                             icon={faSort}
-                            style={{ marginLeft: '15px', cursor: 'pointer' }}
+                            style={{ paddingLeft: '15px', cursor: 'pointer' }}
                         />
                     </th>
                 ))}

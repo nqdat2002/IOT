@@ -3,8 +3,8 @@ import { getFilteredDataSensorHandler } from '../api';
 import './DataSensors.css';
 
 // Table Header
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort} from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faSortDown} from '@fortawesome/free-solid-svg-icons';
 
 const DataSensors = () => {
 	// params query 
@@ -143,7 +143,7 @@ const DataSensors = () => {
 			const response = await getFilteredDataSensorHandler({
 				page: currentPage, 
 				limit: itemsPerPage, 
-				keyword: searchTerm,
+				keyword: searchTerm.toLocaleLowerCase(),
 				sortBy: sortBy,
 				sortOrder: sortOrder,
 				type: selectedType
@@ -163,7 +163,7 @@ const DataSensors = () => {
 
 		const intervalId = setInterval(() => {
 			fetchFilteredDataSensprs();
-		}, 2000);
+		}, 1000);
 
 		return () => clearInterval(intervalId);
 	}, [dataRender, totalPages, currentPage, itemsPerPage, searchTerm, sortBy, sortOrder, selectedType]);
@@ -208,7 +208,7 @@ const DataSensors = () => {
 					<h2>Search</h2>
 					<input
 						type="text"
-						placeholder="..."
+						placeholder="Ex: 10"
 						value={searchTerm}
 						onChange={handleSearchTerm}
 					/>
@@ -221,7 +221,7 @@ const DataSensors = () => {
 						<option value="temperature">Temperature</option>
 						<option value="humidity">Humidity</option>
 						<option value="luminosity">Luminosity</option>
-						<option value="dateCreated">DateCreated</option>
+						<option value="date">DateCreated</option>
 					</select>
 				</div>
 				
@@ -281,15 +281,15 @@ const Pagination = ({ currentPage, totalPages, paginate }) => {
 
 	return (
 		<div className="pagination">
-			<button onClick={() => paginate(1)}>First Page</button>
-			<button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous Page</button>
+			<button onClick={() => paginate(1)}>{"<<"}</button>
+			<button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>{"<"}</button>
 			{pageNumbers.map(number => (
 				<button key={number} onClick={() => paginate(number)} className={currentPage === number ? 'active' : ''}>
 					{number}
 				</button>
 			))}
-			<button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>Next page</button>
-			<button onClick={() => paginate(totalPages)}>Last Page</button>
+			<button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>{">"}</button>
+			<button onClick={() => paginate(totalPages)}>{">>"}</button>
 		</div>
 	);
 };
@@ -317,12 +317,15 @@ const TableHead = ({ data, sortBy, sortOrder, handleSort}) => {
                     <th key={key} onClick={() => handleClickSort(key)} style={{ cursor: 'pointer' }}>
 					{upper(key)}
 					{/* <FontAwesomeIcon
-						icon={faSort}
+						icon={faSortDown}
 						style={{
 							marginLeft: '5px',
 							cursor: 'pointer',
-							visibility: sortBy === key ? 'visible' : 'hidden', 
-							transform: sortOrder === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)' 
+							visibility: sortBy === key ? 'visible' : 'hidden',
+							transform: sortOrder === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)',
+							position: 'relative',
+							top: '3px', 
+							left: '5px'
 						}}
 					/> */}
 				</th>

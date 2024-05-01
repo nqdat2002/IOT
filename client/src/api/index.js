@@ -42,11 +42,22 @@ export const getAllDataSensorHandler = async () => {
     }
 };
 
+export const getLastestDataSensorHandler = async() =>{
+    try {
+        const response = await axios.get(
+            baseURL + "api/datasensor/lastest"
+        );
+        return response.data;
+    } catch (err) {
+        console.error("Error in getAllDataSensorHandler: ", err);
+    }
+};
+
 
 export const getFilteredDataSensorHandler = async (filterObject) => {
     try {
         const response = await axios.get(
-            baseURL + `api/datasensor/filter?page=${filterObject.page}&limit=${filterObject.limit}&type=${filterObject.type}&sortBy=${filterObject.sortBy}&sortOrder=${filterObject.sortOrder}`);
+            baseURL + `api/datasensor/filter?page=${filterObject.page}&limit=${filterObject.limit}&keyword=${filterObject.keyword}&sortBy=${filterObject.sortBy}&sortOrder=${filterObject.sortOrder}&type=${filterObject.type}`);
         return response.data;
     } catch (err) {
         console.error("Error in getFilteredDataSensorHandler: ", err);

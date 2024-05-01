@@ -20,6 +20,28 @@ export async function getAllDataSensor(req, res, next) {
     
 };
 
+export async function getLastestItems(req, res, next) {
+    try {
+        const sql = "SELECT id, temperature, humidity, luminosity, DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors";
+        // console.log(sql);
+
+        connection.query(sql, async (err, result, fields) => {
+            if (err) {
+                console.log("Error getting records: ", err);
+                return res.status(500).json(err);
+            }
+            const lastitem = process.env.LASTEST_ITEMS;
+            const en = result.length, st = en - lastitem;
+
+            return res.status(200).send({"total": lastitem, data: result.slice(st, en), message: 'success'});
+        });
+    } catch (error) {
+        console.error("Error in getAllDataSensor: ", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+    
+};
+
 export async function getFilterDataSensor(req, res, next) {   
     try {
         const page = parseInt(req.query.page) || 1;
@@ -49,10 +71,13 @@ export async function getFilterDataSensor(req, res, next) {
 
         // get all rows not contain limit & page
         const rows = await getFilter(page, limit, keyword, sortBy, sortOrder, type);
+
         const totalRows = rows.length;
         const totalPages = Math.ceil(totalRows / limit);
         // console.log("Total rows: ", totalRows);
         // console.log("Total Pages: ", totalPages);
+
+
         const currentPage = page > totalPages ? 1 : page;        
         // console.log("Current Page: ", currentPage);
         res.status(200).send({
@@ -74,7 +99,7 @@ async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
         if (type == 'all'){
             sql = `SELECT id, temperature, humidity, luminosity, DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors`;
         }
-        else if (type == 'dateCreated'){
+        else if (type == 'date'){
             sql = 'SELECT `id`, ' + `DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors`;
         }
         else sql = 'SELECT `id`, ' + '`' + type + '`, ' + `DATE_FORMAT(date, '%Y-%m-%d %H:%i:%s') AS dateCreated FROM datasensors`;
@@ -83,7 +108,10 @@ async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
         if (keyword) {
             if (type == 'all')
                 sql += ` WHERE temperature LIKE '%${keyword}%' OR humidity LIKE '%${keyword}%' OR luminosity LIKE '%${keyword}%' OR date LIKE '%${keyword}%'`;
-            else sql += ` WHERE ${type} LIKE '%${keyword}%' OR date LIKE '%${keyword}%'`;
+            else if (type == 'date')
+                sql += ` WHERE date LIKE '%${keyword}%'`
+            else 
+                sql += ` WHERE ${type} LIKE '%${keyword}%' OR date LIKE '%${keyword}%'`;
         }
 
         if (sortBy && sortOrder) {
@@ -101,7 +129,6 @@ async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
         });
     });
 };
-
 
 // non async function
 export function CreateDataSensor(data){
