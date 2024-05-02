@@ -140,7 +140,7 @@ const DataSensors = () => {
 	// });
 	
 	useEffect(() => {
-		const fetchFilteredDataSensprs = async () => {
+		const fetchFilteredDataSensors = async () => {
 			const response = await getFilteredDataSensorHandler({
 				page: currentPage, 
 				limit: itemsPerPage, 
@@ -163,7 +163,7 @@ const DataSensors = () => {
 		}
 
 		const intervalId = setInterval(() => {
-			fetchFilteredDataSensprs();
+			fetchFilteredDataSensors();
 		}, 1000);
 
 		return () => clearInterval(intervalId);

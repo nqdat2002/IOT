@@ -21,7 +21,7 @@ export const actionhistoryObject = {
   dateCreated: "dateCreated",
 };
 
-export const rawData = [
+export const rawDataSensor = [
   {
     id: 18,
     temperature: 20,
@@ -127,4 +127,9 @@ export const rawData = [
     luminosity: 1861,
     dateCreated: "2024-03-10 12:42:15",
   },
+];
+
+
+export const rawActionHistory = [
+
 ];

@@ -1,5 +1,16 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { rawDataSensor } from "../utils/constant";
+
+const ProcessRawData = (data, item) => {
+    let result = [];
+    data.forEach(e => {
+        if (e.hasOwnProperty(item)){
+            result.push(e[item]);
+        }
+    });
+    return result;
+};
 
 class MyChart extends React.Component {
     constructor(props) {
@@ -10,7 +21,7 @@ class MyChart extends React.Component {
                 datasets: [
                     {
                         label: "Temperature",
-                        data: Array(15).fill(0),
+                        data: ProcessRawData(rawDataSensor, 'temperature'),
                         borderColor: '#E15D1F',
                         lineTension: 0.5,
                         fill: true,
@@ -18,7 +29,7 @@ class MyChart extends React.Component {
                     },
                     {
                         label: "Humidity",
-                        data: Array(15).fill(0),
+                        data: ProcessRawData(rawDataSensor, 'humidity'),
                         borderColor: '#1FC7E1',
                         lineTension: 0.5,
                         fill: true,
@@ -26,7 +37,7 @@ class MyChart extends React.Component {
                     },
                     {
                         label: "Luminosity",
-                        data: Array(15).fill(0),
+                        data: ProcessRawData(rawDataSensor, 'luminosity'),
                         borderColor: '#ECEE4F',
                         lineTension: 0.5,
                         fill: true,
@@ -39,7 +50,12 @@ class MyChart extends React.Component {
     
     componentDidUpdate(prevProps) {
         if (this.props.data !== prevProps.data) {
-            const newLabels = this.props.data.map(item => item.dateCreated);
+            const newLabels = this.props.data.map((item) => {
+                const dateCreated = item.dateCreated;
+                // const slicedDate = dateCreated.slice(0, 10);
+                const slicedTime = dateCreated.slice(10);
+                return slicedTime;
+            });
             const newData = {
                 temperature: this.props.data.map(item => item.temperature),
                 humidity: this.props.data.map(item => item.humidity),

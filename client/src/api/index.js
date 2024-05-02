@@ -28,6 +28,15 @@ export const getAllActionHistoryHandler = async () => {
     }  
 };
 
+export const getFilteredActionHistoryHandler = async (filterObject) => {
+    try {
+        const response = await axios.get(
+            baseURL + `api/actionhistory/filter?page=${filterObject.page}&limit=${filterObject.limit}&keyword=${filterObject.keyword}&sortBy=${filterObject.sortBy}&sortOrder=${filterObject.sortOrder}&type=${filterObject.type}`);
+        return response.data;
+    } catch (err) {
+        console.error("Error in getFilteredActionHistoryHandler: ", err);
+    }
+};
 
 export const getAllDataSensorHandler = async () => {
     try {
@@ -49,7 +58,7 @@ export const getLastestDataSensorHandler = async() =>{
         );
         return response.data;
     } catch (err) {
-        console.error("Error in getAllDataSensorHandler: ", err);
+        console.error("Error in getLastDataSensorHandler: ", err);
     }
 };
 
@@ -62,4 +71,4 @@ export const getFilteredDataSensorHandler = async (filterObject) => {
     } catch (err) {
         console.error("Error in getFilteredDataSensorHandler: ", err);
     }
-}
+};
