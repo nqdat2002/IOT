@@ -2,11 +2,18 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 import { rawDataSensor } from "../utils/constant";
 
-const ProcessRawData = (data, item) => {
+const SlideTime = (data) => {
+    return data.slice(10);
+};
+
+const ProcessRawData = (data, item, flag = true) => {
     let result = [];
     data.forEach(e => {
-        if (e.hasOwnProperty(item)){
+        if (e.hasOwnProperty(item) && flag){
             result.push(e[item]);
+        }
+        if (e.hasOwnProperty(item) && !flag){
+            result.push(SlideTime(e[item]));
         }
     });
     return result;
@@ -17,7 +24,7 @@ class MyChart extends React.Component {
         super(props);
         this.state = {
             data: {
-                labels: Array.from({ length: 15 }, (_, index) => index),
+                labels: ProcessRawData(rawDataSensor, 'dateCreated', false),
                 datasets: [
                     {
                         label: "Temperature",
@@ -51,10 +58,7 @@ class MyChart extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.data !== prevProps.data) {
             const newLabels = this.props.data.map((item) => {
-                const dateCreated = item.dateCreated;
-                // const slicedDate = dateCreated.slice(0, 10);
-                const slicedTime = dateCreated.slice(10);
-                return slicedTime;
+                return SlideTime(item.dateCreated);
             });
             const newData = {
                 temperature: this.props.data.map(item => item.temperature),
