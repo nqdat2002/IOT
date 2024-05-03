@@ -212,6 +212,15 @@ The Internet of Things (IoT) refers to the network of interconnected devices, se
    
 ## 5. API Docs
    <a href="https://documenter.getpostman.com/view/27014654/2sA35HWLBy" target="_blank">API documentation<a>!
+
+## 6. Preview UI System
+   ### DashBoard
+      ![alt text](https://github.com/nqdat2002/IOT/ui/204.jpg?raw=true)
+
+   ### DataSensors
+   ### ActionHistory
+   ### Profile
+
 # Contributing
 Contributions to this README are welcome! If you have suggestions, corrections, or additional information related to IoT technologies, feel free to submit a pull request.
 
