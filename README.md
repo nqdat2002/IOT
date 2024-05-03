@@ -221,7 +221,7 @@ The Internet of Things (IoT) refers to the network of interconnected devices, se
    ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/204.jpg)
 
    ### ActionHistory
-   ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/205jpg)
+   ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/205.jpg)
 
    ### Profile
    ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/206.jpg)
