@@ -215,9 +215,17 @@ The Internet of Things (IoT) refers to the network of interconnected devices, se
 
 ## 6. Preview UI System
    ### DashBoard
+   ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/203.jpg)
+
    ### DataSensors
+   ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/204.jpg)
+
    ### ActionHistory
+   ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/205jpg)
+
    ### Profile
+   ![Alt text](https://github.com/nqdat2002/IOT/blob/master/ui/206.jpg)
+
 
 # Contributing
 Contributions to this README are welcome! If you have suggestions, corrections, or additional information related to IoT technologies, feel free to submit a pull request.
