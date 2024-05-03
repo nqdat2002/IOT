@@ -1,5 +1,5 @@
 import "./App.css";
-import { NavBar } from "./components/NavBar";
+import NavBar from "./layout/NavBar";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import DataSensors from "./pages/DataSensors";
