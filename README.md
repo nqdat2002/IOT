@@ -215,7 +215,7 @@ The Internet of Things (IoT) refers to the network of interconnected devices, se
 
 ## 6. Preview UI System
    ### DashBoard
-      ![alt text](https://github.com/nqdat2002/IOT/ui/204.jpg?raw=true)
+   [alt text](https://github.com/nqdat2002/IOT/ui/204.jpg?raw=true)
 
    ### DataSensors
    ### ActionHistory
