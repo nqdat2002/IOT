@@ -2,7 +2,7 @@ import React from 'react';
 // import '../pages/Dashboard.css';
 import '../styles/dashboard.css';
 
-class GroupButton extends React.Component {
+class ActionButton extends React.Component {
     render(){
         const {value, icon, onClick, isActive} = this.props;
         return(
@@ -18,4 +18,4 @@ class GroupButton extends React.Component {
     }
 };
 
-export default GroupButton;
+export default ActionButton;

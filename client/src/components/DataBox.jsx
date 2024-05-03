@@ -3,7 +3,7 @@ import React from 'react';
 import '../styles/dashboard.css';
 
 
-class BaseItem extends React.Component {
+class DataBox extends React.Component {
 	getGradient(warning_colors, index, value) {
 		if (value >= 100) value = (value / 4000) * 100;
         return `linear-gradient(to top right, ${warning_colors[index].low} ${value}%, ${warning_colors[index].high} 100%)`;
@@ -37,4 +37,4 @@ class BaseItem extends React.Component {
 	}
 };
 
-export default BaseItem;
+export default DataBox;

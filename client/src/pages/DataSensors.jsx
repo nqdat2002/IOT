@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { getFilteredDataSensorHandler } from '../api';
 import Pagination from '../components/Pagination';
 import '../styles/datasensor.css';
+import upper from '../utils/UpperFirstCharacter';
+
+// raw data 
+// import { rawDataSensor } from '../utils/constant';
 
 // Table Header
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faSortDown} from '@fortawesome/free-solid-svg-icons';
 
-import upper from '../utils/UpperFirstCharacter';
 
 const DataSensors = () => {
 	// params query 

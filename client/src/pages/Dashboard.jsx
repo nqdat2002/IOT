@@ -14,8 +14,8 @@ import { CategoryScale } from "chart.js";
 
 import MyChart from '../components/MyChart';
 
-import BaseItem from '../components/BaseItem';
-import GroupButton from '../components/GroupButton';
+import DataBox from '../components/DataBox';
+import ActionButton from '../components/ActionButton';
 
 import { rawDataSensor } from '../utils/constant';
 import '../styles/dashboard.css';
@@ -101,7 +101,7 @@ const Dashboard = () => {
 
 			<div className="first-row">
 				<div className="first-row__items">
-					<BaseItem
+					<DataBox
 						index={0}
 						name={"Temperature"}
 						value={temperature_value}
@@ -109,7 +109,7 @@ const Dashboard = () => {
 						end={"°C"}
 					/>
 
-					<BaseItem
+					<DataBox
 						index={1}
 						name={"Humidity"}
 						value={humidity_value}
@@ -117,7 +117,7 @@ const Dashboard = () => {
 						end={"%"}
 					/>
 
-					<BaseItem
+					<DataBox
 						index={2}
 						name={"Luminosity"}
 						value={luminosity_value}
@@ -141,20 +141,20 @@ const Dashboard = () => {
 					<MyChart data={dataSensor} />
 				</div>
 				<div className="list-btn">
-					<GroupButton
+					<ActionButton
 						value={lightButtonLabel}
 						icon={lightButtonLabel === "OFF" ? light_off_icon : light_on_icon}
 						onClick={handleToggleLight}
 						isActive={false}
 					/>
-					<GroupButton
+					<ActionButton
 						value={fanButtonLabel}
 						icon={fanButtonLabel === "OFF" ? fan_icon : fan_icon}
 						onClick={handleToggleFan}
 						isActive={fanButtonLabel === "ON" ? true : false}
 					/>
 
-					{/* <GroupButton
+					{/* <ActionButton
 						value={fanButtonLabel}
 						icon={fanButtonLabel === "OFF" ? fan_icon : fan_icon}
 						onClick={handleToggleFan}
