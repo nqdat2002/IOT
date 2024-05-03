@@ -125,6 +125,14 @@ const Dashboard = () => {
 						end={"lux"}
 					/>
 
+					{/* <BaseItem
+						index={2}
+						name={"Luminosity"}
+						value={luminosity_value}
+						icon={luminosity_icon}
+						end={"lux"}
+					/> */}
+
 				</div>
 			</div>
 
@@ -145,6 +153,13 @@ const Dashboard = () => {
 						onClick={handleToggleFan}
 						isActive={fanButtonLabel === "ON" ? true : false}
 					/>
+
+					{/* <GroupButton
+						value={fanButtonLabel}
+						icon={fanButtonLabel === "OFF" ? fan_icon : fan_icon}
+						onClick={handleToggleFan}
+						isActive={fanButtonLabel === "ON" ? true : false}
+					/> */}
 				</div>
 			</div>
 		</div>

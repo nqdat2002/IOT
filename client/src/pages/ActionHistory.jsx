@@ -1,6 +1,7 @@
 import React, { useEffect, useState }  from 'react';
 import { getFilteredActionHistoryHandler } from '../api';
 import Pagination from '../components/Pagination';
+import upper from '../utils/UpperFirstCharacter';
 import '../styles/datasensor.css';
 
 const ActionHistory = () => {
@@ -135,11 +136,6 @@ const ActionHistory = () => {
 			
 		</div>
 	);
-};
-
-
-const upper = (word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
 const TableHead = ({ data, sortBy, sortOrder, handleSort}) => {

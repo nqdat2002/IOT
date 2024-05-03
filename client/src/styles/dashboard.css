@@ -22,13 +22,17 @@
     align-items: center;
     justify-content: center;
     gap: 50px;
+
+    
+    padding: 0 50px;
 }
 
 .base-item {
     background-color: rgb(227, 233, 240);
     border: #141414 solid 1px;
     height: 120px;
-    width: 400px;
+    /* width: 400px; */
+    flex: auto;
 }
 
 .base-item h3 {
@@ -57,7 +61,8 @@
     margin-top: 50px;
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: center; 
+    /* need to replace when add action button */
     justify-content: center;
     gap: 50px;
 }
@@ -68,16 +73,17 @@
 }
 
 .list-btn{
-    height: 400px;
+    display: flex;
+    flex-direction: column;
     width: 230px;
+    gap: 20px;
 }
 
 .group-btn{
-    margin-top: 20px;
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     background-color: rgb(227, 233, 240);
     padding: 10px;
 }

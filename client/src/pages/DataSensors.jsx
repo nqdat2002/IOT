@@ -7,6 +7,8 @@ import '../styles/datasensor.css';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faSortDown} from '@fortawesome/free-solid-svg-icons';
 
+import upper from '../utils/UpperFirstCharacter';
+
 const DataSensors = () => {
 	// params query 
 	const [currentPage, setCurrentPage] = useState(1);
@@ -301,9 +303,9 @@ const DataSensors = () => {
 // 	);
 // };
 
-const upper = (word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-};
+// const upper = (word) => {
+//     return word.charAt(0).toUpperCase() + word.slice(1);
+// };
 
 const TableHead = ({ data, sortBy, sortOrder, handleSort}) => {
     const firstItem = data.length > 0 ? data[0] : {};

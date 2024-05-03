@@ -1,44 +1,45 @@
 @import url('../src/assets/css/font.css');
+
 :root {
-  --base-color: #DB4040;
-  --text-color: rgb(255, 255, 255);
-  --text-color-2: #141414;
-  --sizeoftopbar: 30px;
+	--base-color: #DB4040;
+	--text-color: rgb(255, 255, 255);
+	--text-color-2: #141414;
+	--sizeoftopbar: 30px;
 }
 
 * {
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
 }
 
 html {
-  font-size: 62.5%;
-  line-height: 1.6rem;
-  font-family: 'Neurial Grotesk', "Roboto", "Helvetica", sans-serif;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+	font-size: 62.5%;
+	line-height: 1.6rem;
+	font-family: 'Neurial Grotesk', "Roboto", "Helvetica", sans-serif;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
 
 body {
-  margin: 0 auto;
-  padding: auto;
-  /* max-width: 1440px; */
+	margin: 0 auto;
+	padding: auto;
+	/* max-width: 1440px; */
 }
 
 p {
-  font-size: 1rem;
+	font-size: 1rem;
 }
 
 li {
-  list-style: none;
+	list-style: none;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 main {
-  width: 100%;
-  overflow: hidden;
+	width: 100%;
+	overflow: hidden;
 }
