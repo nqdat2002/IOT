@@ -1,8 +1,13 @@
 import React from 'react';
+import '../styles/footer.css';
 
 const Footer = () => {
     return (
-        <div>Footer</div>
+        <footer>
+            <h3>
+                Copyright © iot_app 2024 – All rights reserved
+            </h3>
+        </footer>
     );
 };
 

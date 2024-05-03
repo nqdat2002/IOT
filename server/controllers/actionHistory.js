@@ -21,10 +21,6 @@ export async function getAllActionHistory(req, res, next) {
     }
 };
 
-const handleRequestData = (data, res) => {
-    return res.status(200).send({ message: data , status: "success"});
-};
-
 export async function changeAction(req, res, next) {
     try {
         const data = req.body;
@@ -122,7 +118,7 @@ export async function getFilterActionHistory(req, res, next) {
         console.error("Error in FilterActionHistory: ", error);
         return res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
 async function getFilter(page, limit, keyword, sortBy, sortOrder, type) {
     return new Promise((resolve, reject) => {

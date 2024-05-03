@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getFilteredDataSensorHandler } from '../api';
 import Pagination from '../components/Pagination';
-import './DataSensors.css';
+import '../styles/datasensor.css';
 
 // Table Header
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -241,7 +241,11 @@ const DataSensors = () => {
 			{/* Table Data */}
 			<div className="table-container">
 				<table>
-					<TableHead data={dataRender} sortBy={sortBy} sortOrder={sortOrder} handleSort={handleSort} />
+					<TableHead 
+						data={dataRender} 
+						sortBy={sortBy} 
+						sortOrder={sortOrder}
+						handleSort={handleSort} />
 					<TableBody data={dataRender} />
 				</table>
 			</div>

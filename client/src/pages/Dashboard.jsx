@@ -18,7 +18,6 @@ import BaseItem from '../components/BaseItem';
 import GroupButton from '../components/GroupButton';
 
 import { rawDataSensor } from '../utils/constant';
-// import './Dashboard.css';
 import '../styles/dashboard.css';
 
 import { changeActionHistoryHandler, getLastestDataSensorHandler } from '../api';

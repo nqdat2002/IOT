@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import DataSensors from "./pages/DataSensors";
 import ActionHistory from "./pages/ActionHistory";
 import Profile from "./pages/Profile";
+import Footer from "./layout/Footer";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
 			<Route path="/actionhistory" element={<ActionHistory/>} />
 			<Route path="/profile" element={<Profile/>} />
 		</Routes>
+		<Footer/>
     </div>
 	);
 };

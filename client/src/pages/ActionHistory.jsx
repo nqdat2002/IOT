@@ -1,9 +1,7 @@
 import React, { useEffect, useState }  from 'react';
 import { getFilteredActionHistoryHandler } from '../api';
 import Pagination from '../components/Pagination';
-
-
-import '../styles/dashboard.css';
+import '../styles/datasensor.css';
 
 const ActionHistory = () => {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -114,7 +112,11 @@ const ActionHistory = () => {
 			{/* Table Data */}
 			<div className="table-container">
 				<table>
-					<TableHead data={dataRender} sortBy={sortBy} sortOrder={sortOrder} handleSort={handleSort} />
+					<TableHead 
+						data={dataRender} 
+						sortBy={sortBy} 
+						sortOrder={sortOrder} 
+						handleSort={handleSort} />
 					<TableBody data={dataRender} />
 				</table>
 			</div>
