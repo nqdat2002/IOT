@@ -62,7 +62,6 @@ export const getLastestDataSensorHandler = async() =>{
     }
 };
 
-
 export const getFilteredDataSensorHandler = async (filterObject) => {
     try {
         const response = await axios.get(

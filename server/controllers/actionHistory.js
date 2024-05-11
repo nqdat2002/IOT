@@ -24,7 +24,7 @@ export async function getAllActionHistory(req, res, next) {
 export async function changeAction(req, res, next) {
     try {
         const data = req.body;
-        // console.log('data recieved from client: ', data);
+        console.log('data recieved from client: ', data);
         const changedDevice = data.change;
         delete data.change;
         console.log('data send from client after delete: ', data);

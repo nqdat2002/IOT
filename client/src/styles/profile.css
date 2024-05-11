@@ -1,0 +1,67 @@
+@import url('../index.css');
+
+.container-profile{
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    gap: 50px;
+}
+
+.mainprofile {
+    width: 600px;
+}
+
+.mainprofile h3{
+    font-size: 24px;
+    line-height: 1.4;
+}
+
+.mainprofile h1{
+    font-size: 28px;
+    line-height: 1.5;
+}
+
+.mainprofile span{
+    color: rgb(172, 38, 38);
+}
+
+.mainprofile p{
+    font-size: 16px;
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+.social-media a{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background: transparent;
+    border-radius: 50%;
+    border: .2rem solid var(--text-color-2);
+    font-size: 2rem;
+    color: var(--text-color-2);
+    margin: 3rem 1.5rem 3rem 0;
+    transition: 0.5s ease;
+}
+
+.social-media a:hover{
+    background: var(--text-color-2);
+    color: var(--second-bg-color);
+    box-shadow: 0 0 1rem var(--text-color-2);
+}
+
+.imageprofile img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+.aboutme p{
+    font-size: 16px;
+    line-height: 1.2;
+}
