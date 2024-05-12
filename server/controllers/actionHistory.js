@@ -22,17 +22,18 @@ export async function getAllActionHistory(req, res, next) {
 };
 
 export async function changeAction(req, res, next) {
+    let responseSent = false;
     try {
         const data = req.body;
-        console.log('data recieved from client: ', data);
+        // console.log('data recieved from client: ', data);
         const changedDevice = data.change;
         delete data.change;
-        console.log('data send from client after delete: ', data);
+        // console.log('data send from client after delete: ', data);
         // const message = { "Led_1": data.light, "Led_2": data.fan };
         // console.log('message send to mqtt client: ', JSON.stringify(message));
-        mqttClient.pubMqtt("esp32/device_control", JSON.stringify(data));
-        let responseSent = false;
 
+        responseSent = false;
+        mqttClient.pubMqtt("esp32/device_control", JSON.stringify(data));
         const mqttResponseHandler = (topic, message) => {
             if (!responseSent && topic == "esp32/device_status"){
                 try {
@@ -54,10 +55,17 @@ export async function changeAction(req, res, next) {
                         createData.device_id = changedDevice;
                         createData.action = data[changedDevice];
                         createData.date = now;
-                        CreateActionHistory(createData);
                         // console.log(now);
+
+                        // save to db
+                        // CreateActionHistory(createData);
                         responseSent = true;
-                        return res.status(200).send({ message: data , status: "success"});
+                        // console.log(responseSent);
+
+                        setTimeout(() => {
+                            res.status(201).json({ message: data, status: "success" });
+                        }, 1000);
+                        mqttClient.client.off("message", mqttResponseHandler);
                     }
                 } 
                 catch (err) {
@@ -66,10 +74,10 @@ export async function changeAction(req, res, next) {
             }
         };
         mqttClient.msgwithCallBackMqtt(mqttResponseHandler, res);
-
+    
     } catch (error) {
         console.error("Error in changeAction: ", error);
-        return res.status(500).send({ error: "Internal Server Error" });
+        res.status(500).send({ error: "Internal Server Error" });
     }
 };
 

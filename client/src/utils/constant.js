@@ -1,3 +1,5 @@
+import { getLastestDataSensorHandler } from "../api";
+
 // time delay
 export const timeOut = 5000;
 
@@ -21,7 +23,9 @@ export const actionhistoryObject = {
   dateCreated: "dateCreated",
 };
 
-export const rawDataSensor = [
+const Data15 = await getLastestDataSensorHandler();
+
+const rawDataSensor2 = [
   {
     "id": 1050,
     "temperature": 29,
@@ -129,7 +133,24 @@ export const rawDataSensor = [
   },
 ];
 
+export const rawDataSensor = Data15.data === null ? rawDataSensor2 : Data15.data;
 
 export const rawActionHistory = [
 
+];
+
+
+export const warning_colors = [
+  {
+    low: '#ff4d4d',
+    high: '#e3e9f0',
+  },
+  {
+    low: '#66ccff',
+    high: '#e3e9f0',
+  },
+  {
+    low: '#ffff80',
+    high: '#e3e9f0',
+  }
 ];

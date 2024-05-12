@@ -2,6 +2,7 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 import { rawDataSensor } from "../utils/constant";
 
+
 const SlideTime = (data) => {
     return data.slice(10);
 };
@@ -63,7 +64,7 @@ class MyChart extends React.Component {
             const newData = {
                 temperature: this.props.data.map(item => item.temperature),
                 humidity: this.props.data.map(item => item.humidity),
-                luminosity: this.props.data.map(item => item.luminosity)
+                luminosity: this.props.data.map(item => item.luminosity),
             };
             this.setState({
                 data: {

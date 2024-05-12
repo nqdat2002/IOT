@@ -7,7 +7,7 @@ export const changeActionHistoryHandler = async (changeObject) => {
             baseURL + `api/actionhistory/change`, 
             changeObject
         );
-        console.log(response);
+        // console.log(response);
         return response.data;
     } catch (err) {
         console.error("Error in changeActionHisroryHandler: ", err);

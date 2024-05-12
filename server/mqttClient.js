@@ -87,26 +87,6 @@ const mqttClient = {
                     console.error('Error parsing JSON:', err);
                 }
             }
-
-            // if (topic == "esp32/ledStatus"){
-            //     try {
-            //         const now = formatDate(new Date());
-            //         const data = JSON.parse(message.toString());
-            //         console.log("Recieved Msg: ", data);
-            //         console.log("prev LedStatus: ", ledStatus);
-
-            //         for (const led in ledStatus) {
-            //             if (ledStatus.hasOwnProperty(led)) {
-            //                 updateLedStatus(led, data[led].substring(3));
-            //             }
-            //         }
-            //         // save data to db
-            //         // CreateActionHistory(data);
-            //     } 
-            //     catch (err) {
-            //         console.error('Error parsing JSON:', err);
-            //     }
-            // }
         });
         mqttClient.client.on('error', (err) => {
             console.error('Error occurred:', err);
@@ -115,13 +95,18 @@ const mqttClient = {
 
     ,
     msgwithCallBackMqtt: (callback, res) => {
-        mqttClient.client.on("message", (message, topic) => {
+        const messageHandler = (message, topic) =>{
             callback(message, topic, res);
-        });
+        }
+        mqttClient.client.on("message", messageHandler);
 
         mqttClient.client.on('error', (err) => {
             console.error('Error occurred:', err);
         });
+
+        return () => {
+            mqttClient.client.off("message", messageHandler);
+        };
     }
 };
 

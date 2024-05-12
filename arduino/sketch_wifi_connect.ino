@@ -1,4 +1,4 @@
-#include <DHT.h>
+#include "DHT.h"
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
@@ -15,7 +15,7 @@
 #define Port 1889
 
 const char* ssid = "Active 3_2185";
-const char* password = "datnq321";
+const char* password = "datnq3211";
 const char* mqtt_server = "192.168.43.251";
 
 const char* mqtt_user = "datnq";
@@ -134,10 +134,11 @@ void callback(char* topic, byte* message, unsigned int length) {
       digitalWrite(LED_4, HIGH);
       StaticJsonDocument <500> jsonStatus;
       jsonStatus["light"] = "is on";
-      jsonStatus["fan"] = "is off";
+      jsonStatus["fan"] = "is on";
       String results = "";
       serializeJson(jsonStatus, results);
       client.publish("esp32/device_status", results.c_str());
+      Serial.println(results.c_str());
     }
     else if (led_1 == "off" && led_2 == "on"){
       digitalWrite(LED_2, LOW);
@@ -149,6 +150,7 @@ void callback(char* topic, byte* message, unsigned int length) {
       String results = "";
       serializeJson(jsonStatus, results);
       client.publish("esp32/device_status", results.c_str());
+      Serial.println(results.c_str());
     }
     else if(led_1 == "on" && led_2 == "off"){
       digitalWrite(LED_2, HIGH);
@@ -160,6 +162,7 @@ void callback(char* topic, byte* message, unsigned int length) {
       String results = "";
       serializeJson(jsonStatus, results);
       client.publish("esp32/device_status", results.c_str());
+      Serial.println(results.c_str());
     }
     else {
       digitalWrite(LED_2, LOW);
@@ -171,6 +174,7 @@ void callback(char* topic, byte* message, unsigned int length) {
       String results = "";
       serializeJson(jsonStatus, results);
       client.publish("esp32/device_status", results.c_str());
+      Serial.println(results.c_str());
     }
   }
 }
