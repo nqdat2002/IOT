@@ -1,7 +1,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import { rawDataSensor } from "../utils/constant";
-
+import { lineChart_colors } from "../utils/constant";
 
 const SlideTime = (data) => {
     return data.slice(10);
@@ -73,7 +73,7 @@ class MyChart extends React.Component {
                         {
                             label: "Temperature",
                             data: newData.temperature,
-                            borderColor: '#E15D1F',
+                            borderColor: lineChart_colors.temperature,
                             lineTension: 0.5,
                             fill: true,
                             yAxisID: 'y',
@@ -81,7 +81,7 @@ class MyChart extends React.Component {
                         {
                             label: "Humidity",
                             data: newData.humidity,
-                            borderColor: '#1FC7E1',
+                            borderColor: lineChart_colors.humidity,
                             lineTension: 0.5,
                             fill: true,
                             yAxisID: 'y',
@@ -89,7 +89,7 @@ class MyChart extends React.Component {
                         {
                             label: "Luminosity",
                             data: newData.luminosity,
-                            borderColor: '#ECEE4F',
+                            borderColor: lineChart_colors.luminosity,
                             lineTension: 0.5,
                             fill: true,
                             yAxisID: 'y1',

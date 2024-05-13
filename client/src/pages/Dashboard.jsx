@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import temperature_icon from "../assets/images/icons/temparature.png";
 import humidity_icon from "../assets/images/icons/humidity.png";
 import luminosity_icon from "../assets/images/icons/brightness.png";
+// import dusting_icon from "../assets/images/icons/dust.png"
 import light_off_icon from "../assets/images/icons/light-off.png";
 import light_on_icon from "../assets/images/icons/light-on.png";
 import fan_icon from "../assets/images/icons/fan.png";
@@ -27,6 +28,7 @@ const Dashboard = () => {
 	const [temperature_value, setTemperatureValue] = useState(0);
 	const [humidity_value, setHumidityValue] = useState(0);
 	const [luminosity_value, setLuminosityValue] = useState(0);
+	// const [dusting_value, setDustingValue] = useState(0);
 	const [dataSensor, setDataSensor] = useState(rawDataSensor);
 
 	useEffect(() => {
@@ -53,6 +55,8 @@ const Dashboard = () => {
 				setTemperatureValue(newData.temperature);
 				setHumidityValue(newData.humidity);
 				setLuminosityValue(newData.luminosity);
+				// adding 
+				// setDustingValue(Math.floor(Math.random() * 10));
 				return newDataSensor;
 			});
 		}
@@ -141,10 +145,10 @@ const Dashboard = () => {
 
 					{/* <DataBox
 						index={3}
-						name={"Luminosity"}
-						value={luminosity_value}
-						icon={luminosity_icon}
-						end={"lux"}
+						name={"Dusting"}
+						value={dusting_value}
+						icon={dusting_icon}
+						end={"µg/m³"}
 					/> */}
 
 				</div>

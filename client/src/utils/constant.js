@@ -139,18 +139,29 @@ export const rawActionHistory = [
 
 ];
 
-
 export const warning_colors = [
   {
-    low: '#ff4d4d',
-    high: '#e3e9f0',
+    low: '#ff0000',
+    high: '#ffe6e6',
   },
   {
-    low: '#66ccff',
-    high: '#e3e9f0',
+    low: '#0066ff',
+    high: '#cce0ff',
   },
   {
-    low: '#ffff80',
+    low: '#ffff66',
+    high: '#ffffe6',
+  },
+  {
+    low: '#00cc00',
     high: '#e3e9f0',
   }
 ];
+
+
+export const lineChart_colors = {
+  temperature: '#ff0000',
+  humidity: '#0066ff',
+  luminosity: '#ffff66',
+  dusting: '#00cc00'
+};

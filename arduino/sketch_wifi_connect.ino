@@ -79,45 +79,6 @@ void callback(char* topic, byte* message, unsigned int length) {
 
   // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
   // Changes the output state according to the message
-  // if (String(topic) == "esp32/led/LED_02") {
-  //   Serial.print("Changing output/LED_02 to ");
-  //   if(messageTemp == "on"){
-  //     Serial.println("on");
-  //     digitalWrite(LED_2, HIGH);
-  //   }
-  //   else if(messageTemp == "off"){
-  //     Serial.println("off");
-  //     digitalWrite(LED_2, LOW);
-  //   }
-  // }
-
-  // if (String(topic) == "esp32/led/LED_04"){
-  //   Serial.print("Changing output/LED_04 to ");
-  //   if(messageTemp == "on"){
-  //     Serial.println("on");
-  //     digitalWrite(LED_4, HIGH);
-  //   }
-  //   else if(messageTemp == "off"){
-  //     Serial.println("off");
-  //     digitalWrite(LED_4, LOW);
-  //   }
-  // }
-
-  // if (String(topic) == "esp32/led/LED_All"){
-  //   Serial.print("Changing output/LED_All to ");
-  //   if(messageTemp == "on"){
-  //     Serial.println("on");
-  //     digitalWrite(LED_4, HIGH);
-  //     digitalWrite(LED_2, HIGH);
-
-  //   }
-  //   else if(messageTemp == "off"){
-  //     Serial.println("off");
-  //     digitalWrite(LED_4, LOW);
-  //     digitalWrite(LED_2, LOW);
-
-  //   }
-  // }
 
   if (String(topic) == "esp32/device_control"){
     StaticJsonDocument <500> json;

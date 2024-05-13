@@ -95,9 +95,9 @@ const mqttClient = {
 
     ,
     msgwithCallBackMqtt: (callback, res) => {
-        const messageHandler = (message, topic) =>{
+        const messageHandler = (message, topic) => {
             callback(message, topic, res);
-        }
+        };
         mqttClient.client.on("message", messageHandler);
 
         mqttClient.client.on('error', (err) => {
