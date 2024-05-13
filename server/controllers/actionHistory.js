@@ -58,7 +58,7 @@ export async function changeAction(req, res, next) {
                         // console.log(now);
 
                         // save to db
-                        // CreateActionHistory(createData);
+                        CreateActionHistory(createData);
                         responseSent = true;
                         // console.log(responseSent);
 

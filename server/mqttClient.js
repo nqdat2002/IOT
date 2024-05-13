@@ -81,7 +81,7 @@ const mqttClient = {
                     console.log("Luminosity: ", data.luminosity);	
         
                     // save data to db
-                    // CreateDataSensor(topicValues);
+                    CreateDataSensor(topicValues);
                 } 
                 catch (err) {
                     console.error('Error parsing JSON:', err);
